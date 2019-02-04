@@ -26,12 +26,8 @@ const cache = new InMemoryCache({
 });
 
 const httpLink = createHttpLink({
-  credentials:
-    process.env.NODE_ENV === "development" ? "same-origin" : "include",
-  uri:
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:8080/api/eureka"
-      : "https://apis-laboratorio-17.com/api/eureka"
+  credentials: "same-origin",
+  uri: "http://localhost:8080/api/eureka"
 });
 
 const stateLink = withClientState({
@@ -42,7 +38,7 @@ const stateLink = withClientState({
 
 const client = new ApolloClient({
   cache: cache,
-  connectToDevTools: /*process.env.NODE_ENV === "development"*/ true,
+  connectToDevTools: process.env.NODE_ENV === "development",
   link: ApolloLink.from([authLink, stateLink, httpLink])
 });
 
