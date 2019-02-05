@@ -38,7 +38,7 @@ const stateLink = withClientState({
 
 const client = new ApolloClient({
   cache: cache,
-  connectToDevTools: process.env.NODE_ENV === "development",
+  connectToDevTools: false,
   link: ApolloLink.from([authLink, stateLink, httpLink])
 });
 
