@@ -8,6 +8,7 @@ export const CREATE_CLIENT_CONTRACT = gql`
         formatedStartDate
         formatedEndDate
         status
+        typeContract
         id
       }
     }
