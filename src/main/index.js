@@ -9,7 +9,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
 
-function createMainWindow() {
+const createMainWindow = () => {
   const window = new BrowserWindow();
   window.maximize();
 
@@ -39,7 +39,7 @@ function createMainWindow() {
   });
 
   return window;
-}
+};
 
 // quit application when all windows are closed
 app.on("window-all-closed", () => {
