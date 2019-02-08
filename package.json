@@ -45,10 +45,5 @@
     "electron-builder": "^20.38.5",
     "electron-webpack": "2.6.2",
     "webpack": "^4.29.3"
-  },
-  "electronWebpack": {
-    "renderer": {
-      "webpackConfig": "webpack.renderer.additions.js"
-    }
   }
 }
