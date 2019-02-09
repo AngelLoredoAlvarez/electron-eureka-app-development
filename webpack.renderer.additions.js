@@ -1,5 +1,5 @@
 module.exports = {
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: process.env.NODE_ENV === "development"
   }
 };
