@@ -1,7 +1,15 @@
 import React from "react";
-import { FormControl, Grid, TextField } from "@material-ui/core";
+import {
+  FormControl,
+  Grid,
+  IconButton,
+  TextField,
+  Tooltip
+} from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 import InputMask from "react-input-mask";
 import AutocompleteSelect from "./AutocompleteSelect";
+import { ManageAddressInformation } from "./ManageAddressInformation";
 
 export class AddressInformation extends React.Component {
   constructor(props) {
@@ -33,7 +41,8 @@ export class AddressInformation extends React.Component {
         ? props.allStreetsSuggestions.find(
             street => street.value === props.idStreet
           )
-        : null
+        : null,
+      manageAddressInformationDialogState: false
     };
   }
 
@@ -74,10 +83,16 @@ export class AddressInformation extends React.Component {
     this.props.setFieldValue("idStreet", selectedStreet.value);
   };
 
+  handleManageAddressInformationDialogState = () => {
+    this.setState(state => ({
+      manageAddressInformationDialogState: !state.manageAddressInformationDialogState
+    }));
+  };
+
   render() {
     return (
       <Grid container={true} direction="row" item={true} spacing={8} xs={12}>
-        <Grid item={true} xs={4}>
+        <Grid item={true} xs={3}>
           <AutocompleteSelect
             error={this.props.errors.idTown}
             fullWidth={true}
@@ -112,6 +127,26 @@ export class AddressInformation extends React.Component {
             touched={this.props.touched.idStreet}
             value={this.state.selectedStreet}
           />
+        </Grid>
+        <Grid item={true}>
+          <Tooltip title="Administrar Direcciones">
+            <IconButton
+              onClick={this.handleManageAddressInformationDialogState}
+            >
+              <Add />
+            </IconButton>
+          </Tooltip>
+          {this.state.manageAddressInformationDialogState && (
+            <ManageAddressInformation
+              allTowns={this.props.allTownsSuggestions}
+              allTownships={this.props.allTownshipsSuggestions}
+              allStreets={this.props.allStreetsSuggestions}
+              isOpen={this.state.manageAddressInformationDialogState}
+              maxWidth="sm"
+              onClose={this.handleManageAddressInformationDialogState}
+              title="Administrar Direcciones"
+            />
+          )}
         </Grid>
         <Grid item={true} xs={1}>
           <FormControl fullWidth={true}>

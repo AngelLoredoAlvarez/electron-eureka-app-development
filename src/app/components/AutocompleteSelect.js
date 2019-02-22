@@ -6,7 +6,6 @@ import {
   Chip,
   FormControl,
   FormHelperText,
-  InputLabel,
   MenuItem,
   Paper,
   TextField,
@@ -59,11 +58,6 @@ const styles = theme => ({
     height: theme.spacing.unit * 2
   }
 });
-
-const data = [
-  { value: "angel", label: "Ángel" },
-  { value: "loredo", label: "Loredo" }
-];
 
 const NoOptionsMessage = props => {
   return (

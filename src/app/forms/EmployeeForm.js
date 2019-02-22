@@ -283,7 +283,7 @@ export const EmployeeForm = ({
                 />
               </Grid>
               {isAdmin && (
-                <Grid item={true} xs={1}>
+                <Grid item={true}>
                   <Mutation
                     mutation={UPDATE_ROLES_LIST_DIALOG_STATE}
                     variables={{ isOpen: true }}
