@@ -10,14 +10,15 @@ import {
 } from "@material-ui/core";
 import {
   AccountBox,
-  Assignment,
   AssignmentInd,
-  ChevronLeft
+  ChevronLeft,
+  MoneyOff
 } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
 import { Mutation, Query } from "react-apollo";
 import { DRAWER_MENU_STATE } from "../../graphql/queries/DrawerMenuState";
 import { UPDATE_DRAWER_MENU_STATE } from "../../graphql/mutations/UpdateDrawerMenuState";
+import { UPDATE_DEBTS_LIST_DIALOG_STATE } from "../../graphql/mutations/UpdateDebtsListDialogState";
 import { UPDATE_CLIENTS_LIST_DIALOG_STATE } from "../../graphql/mutations/UpdateClientsListDialogState";
 import { UPDATE_EMPLOYEES_LIST_DIALOG_STATE } from "../../graphql/mutations/UpdateEmployeesListDialogState";
 
@@ -68,6 +69,19 @@ export const DrawerMainView = withStyles(
         </div>
         <Divider />
         <List>
+          <Mutation
+            mutation={UPDATE_DEBTS_LIST_DIALOG_STATE}
+            variables={{ isOpen: true }}
+          >
+            {UpdateDebtsListDialogState => (
+              <ListItem button={true} onClick={UpdateDebtsListDialogState}>
+                <ListItemIcon>
+                  <MoneyOff />
+                </ListItemIcon>
+                <ListItemText primary="Adeudos" />
+              </ListItem>
+            )}
+          </Mutation>
           <Mutation
             mutation={UPDATE_CLIENTS_LIST_DIALOG_STATE}
             variables={{ isOpen: true }}

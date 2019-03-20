@@ -51,46 +51,64 @@ export const AllContractsToPayTable = withStyles(
               name: "Negocio",
               field: "business",
               options: {
-                customBodyRender: value => `${value.node.business}`
+                customBodyRender: value => `${value.node.contract.business}`
               }
             },
             {
               name: "Cliente",
               field: "fullName",
               options: {
-                customBodyRender: value => `${value.node.client.fullName}`
+                customBodyRender: value =>
+                  `${value.node.contract.client.fullName}`
               }
             },
             {
-              name: "Fecha de Inicio",
-              field: "formatedStartDate",
+              name: "Dirección",
+              field: "fullAddress",
               options: {
-                customBodyRender: value => `${value.node.formatedStartDate}`
+                customBodyRender: value => `${value.node.contract.fullAddress}`
               }
             },
             {
-              name: "Fecha de Fin",
-              field: "formatedEndDate",
+              name: "Contacto 1",
+              field: "contact",
               options: {
-                customBodyRender: value => `${value.node.formatedEndDate}`
+                customBodyRender: value =>
+                  value.node.contract.contacts.edges[0]
+                    ? `${value.node.contract.contacts.edges[0].node.contact}`
+                    : "N/C"
               }
             },
             {
-              name: "Tipo de Contrato",
-              field: "typeContract",
+              name: "Contacto 2",
+              field: "contact",
               options: {
-                customBodyRender: value => `${value.node.typeContract}`
+                customBodyRender: value =>
+                  value.node.contract.contacts.edges[1]
+                    ? `${value.node.contract.contacts.edges[1].node.contact}`
+                    : "N/C"
               }
             },
             {
+              name: "Contacto 3",
+              field: "contact",
+              options: {
+                customBodyRender: value =>
+                  value.node.contract.contacts.edges[2]
+                    ? `${value.node.contract.contacts.edges[2].node.contact}`
+                    : "N/C"
+              }
+            },
+            {
+              name: "Opciones",
               field: "id",
               options: {
                 customBodyRender: value => (
                   <PayAndRenovateContractOrPayAndEndContract
-                    business={value.node.business}
-                    idClient={value.node.client.id}
-                    idContract={value.node.id}
-                    typeContract={value.node.typeContract}
+                    business={value.node.contract.business}
+                    idClient={value.node.contract.client.id}
+                    idContract={value.node.contract.id}
+                    typeContract={value.node.contract.typeContract}
                   />
                 )
               }

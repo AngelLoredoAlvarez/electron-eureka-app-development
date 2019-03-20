@@ -1,19 +1,25 @@
 import gql from "graphql-tag";
 
 export const ALL_CONTRACTS_TO_PAY = gql`
-  fragment AllContractsToPay on ClientContractsConnection {
+  fragment AllContractsToPay on ClientContractMovementsConnection {
     edges {
       node {
-        business
-        client: clientByIdClient {
+        contract: clientContractByIdContract {
+          business
+          client: clientByIdClient {
+            id
+            fullName
+          }
+          fullAddress
+          contacts: businessContactsByIdContract {
+            edges {
+              node {
+                contact
+              }
+            }
+          }
           id
-          fullName
         }
-        formatedStartDate
-        formatedEndDate
-        typeContract
-        status
-        id
       }
     }
   }

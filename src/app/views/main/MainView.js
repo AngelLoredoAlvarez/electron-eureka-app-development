@@ -6,9 +6,10 @@ import { GraphQLError } from "../../components/GraphQLError";
 import { NetworkError } from "../../components/NetworkError";
 import { AppBarMainView } from "./AppBarMainView";
 import { DrawerMainView } from "./DrawerMainView";
-import { AllContractsToPayTable } from "./AllContractsToPayTable";
-import { AllClientsView } from "../clients/AllClientsView";
 import { ALL_CONTRACTS_TO_PAY } from "../../graphql/fragments/AllContractsToPay";
+import { AllContractsToPayTable } from "./AllContractsToPayTable";
+import { AllDebtsView } from "../clients/AllDebtsView";
+import { AllClientsView } from "../clients/AllClientsView";
 import { AllEmployeesView } from "../employees/AllEmployeesView";
 
 const CURRENT_EMPLOYEE_ALL_CONTRACTS_TO_PAY = gql`
@@ -50,6 +51,8 @@ export const MainView = () => (
           <DrawerMainView />
 
           <AllContractsToPayTable allContractsToPay={allContractsToPay} />
+
+          <AllDebtsView />
 
           <AllClientsView />
 

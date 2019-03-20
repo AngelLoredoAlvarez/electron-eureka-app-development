@@ -65,10 +65,7 @@ export const CreateClientContractView = ({
             update={(cache, { data }) => {
               const ALL_CLIENT_CONTRACTS_QUERY = gql`
                 query($idClient: UUID!) {
-                  allClientContracts(
-                    condition: { idClient: $idClient }
-                    orderBy: START_DATE_DESC
-                  ) {
+                  allClientContracts(idClient: $idClient) {
                     ...AllClientContracts
                   }
                 }
