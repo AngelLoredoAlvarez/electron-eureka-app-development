@@ -9,8 +9,17 @@ export const ALL_CLIENTS_DEBTS = gql`
             business
             client: clientByIdClient {
               fullName
+              id
+            }
+            contacts: businessContactsByIdContract {
+              edges {
+                node {
+                  contact
+                }
+              }
             }
           }
+          date
           formatedMovementDate
           idContract
         }

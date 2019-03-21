@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { ALL_CLIENTS_DEBTS } from "../../graphql/queries/AllClientsDebts";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 import MaterialDatatable from "material-datatable";
+import { CollectContractDebt } from "./CollectContractDebt";
 
 export const AllDebtsTable = () => (
   <Query query={ALL_CLIENTS_DEBTS}>
@@ -33,6 +34,50 @@ export const AllDebtsTable = () => (
               options: {
                 customBodyRender: value => value.node.formatedMovementDate
               }
+            },
+            {
+              name: "Contacto 1",
+              field: "contact",
+              options: {
+                customBodyRender: value =>
+                  value.node.contract.contacts.edges[0]
+                    ? `${value.node.contract.contacts.edges[0].node.contact}`
+                    : "N/C"
+              }
+            },
+            {
+              name: "Contacto 2",
+              field: "contact",
+              options: {
+                customBodyRender: value =>
+                  value.node.contract.contacts.edges[1]
+                    ? `${value.node.contract.contacts.edges[1].node.contact}`
+                    : "N/C"
+              }
+            },
+            {
+              name: "Contacto 2",
+              field: "contact",
+              options: {
+                customBodyRender: value =>
+                  value.node.contract.contacts.edges[2]
+                    ? `${value.node.contract.contacts.edges[2].node.contact}`
+                    : "N/C"
+              }
+            },
+            {
+              name: "Opciones",
+              field: "idContract",
+              options: {
+                customBodyRender: value => (
+                  <CollectContractDebt
+                    client={value.node.contract.client.fullName}
+                    idClient={value.node.contract.client.id}
+                    dateOfDebt={value.node.date}
+                    idContract={value.node.idContract}
+                  />
+                )
+              }
             }
           ]}
           data={allClientsDebts.edges}
@@ -47,7 +92,7 @@ export const AllDebtsTable = () => (
             sort: false,
             textLabels: {
               body: {
-                noMatch: "No existen deudas :D"
+                noMatch: "No se ha registrado ningun adeudo..."
               },
               pagination: {
                 next: "Página Siguiente",

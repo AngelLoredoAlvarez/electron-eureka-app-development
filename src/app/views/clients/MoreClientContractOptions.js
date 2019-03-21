@@ -1,7 +1,15 @@
 import React from "react";
 import { IconButton, Menu, MenuItem, Tooltip } from "@material-ui/core";
-import { Delete, Details, Edit, MoreVert, Update } from "@material-ui/icons";
+import {
+  Delete,
+  Details,
+  Edit,
+  AttachMoney,
+  MoreVert,
+  Update
+} from "@material-ui/icons";
 import { ClientContractDetailsView } from "./ClientContractDetailsView";
+import { ClientContractMovementsView } from "./ClientContractMovementsView";
 import { RenovateClientContract } from "../../components/RenovateClientContract";
 import { ModifyClientContractView } from "./ModifyClientContractView";
 import { DeleteClientContractView } from "./DeleteClientContractView";
@@ -13,6 +21,7 @@ export class MoreClientContractOptions extends React.Component {
     this.state = {
       anchorEl: null,
       moreContractInfoDialogState: false,
+      clientContractMovements: false,
       renovateClientContractDialogState: false,
       modifyClientContractDialogState: false,
       deleteClientContractDialogState: false
@@ -34,6 +43,12 @@ export class MoreClientContractOptions extends React.Component {
   handleMoreInfoDialogState = () => {
     this.setState(state => ({
       moreContractInfoDialogState: !state.moreContractInfoDialogState
+    }));
+  };
+
+  handleClientContractMovements = () => {
+    this.setState(state => ({
+      clientContractMovements: !state.clientContractMovements
     }));
   };
 
@@ -69,6 +84,13 @@ export class MoreClientContractOptions extends React.Component {
             <Tooltip title="Más Información">
               <IconButton onClick={this.handleMoreInfoDialogState}>
                 <Details />
+              </IconButton>
+            </Tooltip>
+          </MenuItem>
+          <MenuItem onClick={this.handleOptionsClose}>
+            <Tooltip title="Pagos / Adeudos">
+              <IconButton onClick={this.handleClientContractMovements}>
+                <AttachMoney />
               </IconButton>
             </Tooltip>
           </MenuItem>
@@ -114,6 +136,13 @@ export class MoreClientContractOptions extends React.Component {
             maxWidth="sm"
             onClose={this.handleMoreInfoDialogState}
             title="Detalles del Contrato"
+          />
+        )}
+        {this.state.clientContractMovements && (
+          <ClientContractMovementsView
+            idContract={this.props.idContract}
+            isOpen={this.state.clientContractMovements}
+            onClose={this.handleClientContractMovements}
           />
         )}
         {this.state.renovateClientContractDialogState && (

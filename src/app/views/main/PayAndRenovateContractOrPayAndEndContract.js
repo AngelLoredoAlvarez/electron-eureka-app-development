@@ -77,14 +77,11 @@ export class PayAndRenovateContractOrPayAndEndContract extends React.Component {
                   this
                     .handlePayAndRenovateContractOrPayAndEndContractDialogState
                 }
-                refetchQueries={data => [
+                refetchQueries={() => [
                   {
                     query: gql`
                       query($idClient: UUID!) {
-                        allClientContracts(
-                          condition: { idClient: $idClient }
-                          orderBy: START_DATE_DESC
-                        ) {
+                        allClientContracts(idClient: $idClient) {
                           ...AllClientContracts
                         }
                       }
