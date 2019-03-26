@@ -9,6 +9,7 @@ import { CREATE_CLIENT } from "../../graphql/mutations/CreateClient";
 import { ALL_CLIENTS } from "../../graphql/fragments/AllClients";
 import { ClientForm } from "../../forms/ClientForm";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
+import { NetworkError } from "../../components/NetworkError";
 import { GraphQLError } from "../../components/GraphQLError";
 
 const ALL_TOWNS_TOWNSHIPS_STREETS_QUERY = gql`

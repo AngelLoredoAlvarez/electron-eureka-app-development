@@ -12,6 +12,8 @@ import { DELETE_CLIENT } from "../../graphql/mutations/DeleteClient";
 import { ALL_CLIENTS } from "../../graphql/fragments/AllClients";
 import { CustomDialog } from "../../components/CustomDialog";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
+import { NetworkError } from "../../components/NetworkError";
+import { GraphQLError } from "../../components/GraphQLError";
 
 const CLIENT_BY_ID_QUERY = gql`
   query($id: UUID!) {
@@ -68,33 +70,50 @@ export const DeleteClientView = ({
             }}
             variables={{ clientInput: { id } }}
           >
-            {(deleteClient, { loading }) => {
+            {(deleteClient, { error, loading }) => {
               if (loading) return <LoadingProgressSpinner />;
 
               return (
-                <DialogContent>
-                  <DialogContentText>
-                    ¿Está seguro de eliminar al Cliente {data.clientById.name}{" "}
-                    {data.clientById.firstName} {data.clientById.lastName}? (Se
-                    eliminara toda información personal asociada a este cliente)
-                  </DialogContentText>
-                  <DialogActions>
-                    <Button
-                      color="primary"
-                      onClick={deleteClient}
-                      variant="contained"
-                    >
-                      Sí
-                    </Button>
-                    <Button
-                      color="secondary"
-                      onClick={handleDeleteClientViewDialogState}
-                      variant="contained"
-                    >
-                      No
-                    </Button>
-                  </DialogActions>
-                </DialogContent>
+                <React.Fragment>
+                  {error ? (
+                    error.networkError ? (
+                      <NetworkError
+                        isOpen={true}
+                        networkError={error.networkError}
+                      />
+                    ) : error.graphQLErrors ? (
+                      <GraphQLError
+                        isOpen={true}
+                        graphQLErrors={error.graphQLErrors[0]}
+                      />
+                    ) : null
+                  ) : null}
+
+                  <DialogContent>
+                    <DialogContentText>
+                      ¿Está seguro de eliminar al Cliente {data.clientById.name}{" "}
+                      {data.clientById.firstName} {data.clientById.lastName}?
+                      (Se eliminara toda información personal asociada a este
+                      cliente)
+                    </DialogContentText>
+                    <DialogActions>
+                      <Button
+                        color="primary"
+                        onClick={deleteClient}
+                        variant="contained"
+                      >
+                        Sí
+                      </Button>
+                      <Button
+                        color="secondary"
+                        onClick={handleDeleteClientViewDialogState}
+                        variant="contained"
+                      >
+                        No
+                      </Button>
+                    </DialogActions>
+                  </DialogContent>
+                </React.Fragment>
               );
             }}
           </Mutation>

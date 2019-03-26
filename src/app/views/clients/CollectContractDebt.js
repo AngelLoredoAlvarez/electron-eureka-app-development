@@ -39,6 +39,9 @@ export const CollectContractDebt = ({
             onCompleted={() => setIsOpen(!isOpen)}
             refetchQueries={() => [
               {
+                query: ALL_CLIENTS_DEBTS
+              },
+              {
                 query: gql`
                   query($idClient: UUID!) {
                     allClientContracts(idClient: $idClient) {
@@ -54,29 +57,6 @@ export const CollectContractDebt = ({
                 variables: { idContract: idContract }
               }
             ]}
-            update={(cache, { data: { collectContractDebt } }) => {
-              let { allClientsDebts } = cache.readQuery({
-                query: ALL_CLIENTS_DEBTS
-              });
-
-              allClientsDebts.edges = allClientsDebts.edges.filter(
-                ({ node }) =>
-                  node.idContract !==
-                  collectContractDebt.clientContractMovement.idContract
-              );
-
-              cache.writeQuery({
-                query: ALL_CLIENTS_DEBTS,
-                data: {
-                  allClientsDebts: {
-                    ...allClientsDebts,
-                    allClientsDebts
-                  }
-                }
-              });
-
-              return null;
-            }}
             variables={{
               contractMovementInput: {
                 dateOfDebt: dateOfDebt,

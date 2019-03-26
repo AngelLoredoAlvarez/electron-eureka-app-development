@@ -21,9 +21,7 @@ const authLink = setContext((_, { headers }) => {
     : { headers };
 });
 
-const cache = new InMemoryCache({
-  dataIdFromObject: object => object.id
-});
+const cache = new InMemoryCache();
 
 const httpLink = createHttpLink({
   credentials: "same-origin",

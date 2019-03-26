@@ -169,7 +169,7 @@ export const ContractForm = ({
               <FormControl fullWidth={true}>
                 <InputMask
                   alwaysShowMask={true}
-                  formatChars={{ "?": "[a-zA-ZáéíóúÁÉÍÓÚ\\s0-9]" }}
+                  formatChars={{ "?": "[a-zA-ZáéíóúñÁÉÍÓÚÑ\\s0-9]" }}
                   mask="????????????????????????"
                   maskChar=""
                   onChange={handleChange}
