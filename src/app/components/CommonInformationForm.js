@@ -26,7 +26,7 @@ export const CommonInformationForm = ({
           <InputMask
             alwaysShowMask={true}
             disabled={disableAdmin}
-            formatChars={{ "?": "[a-zA-ZáéíóúÁÉÍÓÚ\\s]" }}
+            formatChars={{ "?": "[a-zA-ZáéíóúñÁÉÍÓÚÑ\\s]" }}
             mask="????????????????????"
             maskChar=""
             onChange={handleChange}
@@ -51,7 +51,7 @@ export const CommonInformationForm = ({
           <InputMask
             alwaysShowMask={true}
             disabled={disableAdmin}
-            formatChars={{ "?": "[a-zA-ZáéíóúÁÉÍÓÚ\\s]" }}
+            formatChars={{ "?": "[a-zA-ZáéíóúñÁÉÍÓÚÑ\\s]" }}
             mask="???????????????"
             maskChar=""
             onChange={handleChange}
@@ -79,7 +79,7 @@ export const CommonInformationForm = ({
           <InputMask
             alwaysShowMask={true}
             disabled={disableAdmin}
-            formatChars={{ "?": "[a-zA-ZáéíóúÁÉÍÓÚ\\s]" }}
+            formatChars={{ "?": "[a-zA-ZáéíóúñÁÉÍÓÚÑ\\s]" }}
             mask="???????????????"
             maskChar=""
             onChange={handleChange}

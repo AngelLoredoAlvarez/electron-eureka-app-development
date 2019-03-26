@@ -8,6 +8,7 @@ export const COLLECT_CONTRACT_DEBT = gql`
           business
           client: clientByIdClient {
             fullName
+            id
           }
           contacts: businessContactsByIdContract {
             edges {

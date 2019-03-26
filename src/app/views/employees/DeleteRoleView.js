@@ -45,71 +45,73 @@ export class DeleteRoleView extends React.Component {
             title="Eliminar Rol"
           >
             <DialogContent>
-              <DialogContentText>
-                ¿Estas seguro de eliminar el rol{" "}
-                {this.props.role
-                  .replace("eureka_", "")
-                  .charAt(0)
-                  .toUpperCase() + this.props.role.slice(8)}
-                ?
-              </DialogContentText>
-              <DialogActions>
-                <Mutation
-                  mutation={DELETE_ROLE}
-                  update={(cache, { data: { deleteRole } }) => {
-                    const ALL_ROLES_QUERY = gql`
-                      query {
-                        allRoles {
-                          ...AllRoles
-                        }
+              <Mutation
+                mutation={DELETE_ROLE}
+                update={(cache, { data: { deleteRole } }) => {
+                  const ALL_ROLES_QUERY = gql`
+                    query {
+                      allRoles {
+                        ...AllRoles
                       }
-                      ${ALL_ROLES}
-                    `;
+                    }
+                    ${ALL_ROLES}
+                  `;
 
-                    let { allRoles } = cache.readQuery({
-                      query: ALL_ROLES_QUERY
-                    });
+                  let { allRoles } = cache.readQuery({
+                    query: ALL_ROLES_QUERY
+                  });
 
-                    allRoles.edges = allRoles.edges.filter(
-                      ({ node }) => node !== deleteRole.string
-                    );
+                  allRoles.edges = allRoles.edges.filter(
+                    ({ node }) => node !== deleteRole.string
+                  );
 
-                    cache.writeQuery({
-                      query: ALL_ROLES_QUERY,
-                      data: {
-                        allRoles: {
-                          ...allRoles,
-                          allRoles
-                        }
+                  cache.writeQuery({
+                    query: ALL_ROLES_QUERY,
+                    data: {
+                      allRoles: {
+                        ...allRoles,
+                        allRoles
                       }
-                    });
+                    }
+                  });
 
-                    return null;
-                  }}
-                  variables={{ roleInput: { roleName: this.props.role } }}
-                >
-                  {(deleteRole, { loading }) => {
-                    if (loading) return <LoadingProgressSpinner />;
+                  return null;
+                }}
+                variables={{ roleInput: { roleName: this.props.role } }}
+              >
+                {(deleteRole, { loading }) => {
+                  if (loading) return <LoadingProgressSpinner />;
 
-                    return (
-                      <Button
-                        color="primary"
-                        onClick={deleteRole}
-                        variant="contained"
-                      >
-                        Sí
-                      </Button>
-                    );
-                  }}
-                </Mutation>
-                <Button
-                  color="secondary"
-                  onClick={this.handleDeleteRoleViewDialogState}
-                  variant="contained"
-                >
-                  No
-                </Button>
-              </DialogActions>
+                  return (
+                    <React.Fragment>
+                      <DialogContentText>
+                        ¿Estas seguro de eliminar el rol{" "}
+                        {this.props.role
+                          .replace("eureka_", "")
+                          .charAt(0)
+                          .toUpperCase() + this.props.role.slice(8)}
+                        ?
+                      </DialogContentText>
+                      <DialogActions>
+                        <Button
+                          color="primary"
+                          onClick={deleteRole}
+                          variant="contained"
+                        >
+                          Sí
+                        </Button>
+                        <Button
+                          color="secondary"
+                          onClick={this.handleDeleteRoleViewDialogState}
+                          variant="contained"
+                        >
+                          No
+                        </Button>
+                      </DialogActions>
+                    </React.Fragment>
+                  );
+                }}
+              </Mutation>
             </DialogContent>
           </CustomDialog>
         )}
