@@ -1,11 +1,10 @@
 import React from "react";
-import gql from "graphql-tag";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import { Query } from "react-apollo";
-import MaterialDatatable from "material-datatable";
 import { DRAWER_MENU_STATE } from "../../graphql/queries/DrawerMenuState";
-import { PayAndRenovateContractOrPayAndEndContract } from "./PayAndRenovateContractOrPayAndEndContract";
+import MaterialDatatable from "material-datatable";
+import { ChargeMonth } from "./ChargeMonth";
 
 export const AllContractsToPayTable = withStyles(
   theme => ({
@@ -63,13 +62,6 @@ export const AllContractsToPayTable = withStyles(
               }
             },
             {
-              name: "Dirección",
-              field: "fullAddress",
-              options: {
-                customBodyRender: value => `${value.node.contract.fullAddress}`
-              }
-            },
-            {
               name: "Contacto 1",
               field: "contact",
               options: {
@@ -100,15 +92,12 @@ export const AllContractsToPayTable = withStyles(
               }
             },
             {
-              name: "Opciones",
               field: "id",
               options: {
                 customBodyRender: value => (
-                  <PayAndRenovateContractOrPayAndEndContract
-                    business={value.node.contract.business}
-                    idClient={value.node.contract.client.id}
+                  <ChargeMonth
+                    client={value.node.contract.client.fullName}
                     idContract={value.node.contract.id}
-                    typeContract={value.node.contract.typeContract}
                   />
                 )
               }

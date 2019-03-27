@@ -14,6 +14,8 @@ import { ALL_ROLES } from "../../graphql/fragments/AllRoles";
 import { Mutation } from "react-apollo";
 import { DELETE_ROLE } from "../../graphql/mutations/DeleteRole";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
+import { NetworkError } from "../../components/NetworkError";
+import { GraphQLError } from "../../components/GraphQLError";
 
 export class DeleteRoleView extends React.Component {
   constructor(props) {
@@ -79,11 +81,25 @@ export class DeleteRoleView extends React.Component {
                 }}
                 variables={{ roleInput: { roleName: this.props.role } }}
               >
-                {(deleteRole, { loading }) => {
+                {(deleteRole, { error, loading }) => {
                   if (loading) return <LoadingProgressSpinner />;
 
                   return (
                     <React.Fragment>
+                      {error ? (
+                        error.networkError ? (
+                          <NetworkError
+                            isOpen={true}
+                            networkError={error.networkError}
+                          />
+                        ) : error.graphQLErrors ? (
+                          <GraphQLError
+                            isOpen={true}
+                            graphQLErrors={error.graphQLErrors[0]}
+                          />
+                        ) : null
+                      ) : null}
+
                       <DialogContentText>
                         ¿Estas seguro de eliminar el rol{" "}
                         {this.props.role

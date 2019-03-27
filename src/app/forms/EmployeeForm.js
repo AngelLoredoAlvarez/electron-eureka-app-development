@@ -17,6 +17,7 @@ import { CommonInformationForm } from "../components/CommonInformationForm";
 import { Role } from "../components/Role";
 import { Mutation } from "react-apollo";
 import { UPDATE_ROLES_LIST_DIALOG_STATE } from "../graphql/mutations/UpdateRolesListDialogState";
+import { AllRolesView } from "../views/employees/AllRolesView";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { Security } from "@material-ui/icons";
 
@@ -296,6 +297,7 @@ export const EmployeeForm = ({
                       </Tooltip>
                     )}
                   </Mutation>
+                  <AllRolesView />
                 </Grid>
               )}
             </Grid>

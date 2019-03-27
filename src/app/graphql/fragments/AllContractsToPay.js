@@ -7,10 +7,8 @@ export const ALL_CONTRACTS_TO_PAY = gql`
         contract: clientContractByIdContract {
           business
           client: clientByIdClient {
-            id
             fullName
           }
-          fullAddress
           contacts: businessContactsByIdContract {
             edges {
               node {

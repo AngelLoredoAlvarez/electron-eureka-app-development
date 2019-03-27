@@ -8,7 +8,6 @@ import { ALL_STREETS } from "../../graphql/fragments/AllStreets";
 import { CREATE_EMPLOYEE } from "../../graphql/mutations/CreateEmployee";
 import { ALL_EMPLOYEES } from "../../graphql/fragments/AllEmployees";
 import { EmployeeForm } from "../../forms/EmployeeForm";
-import { AllRolesView } from "./AllRolesView";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 import { NetworkError } from "../../components/NetworkError";
 import { GraphQLError } from "../../components/GraphQLError";
@@ -158,7 +157,6 @@ export const CreateEmployeeView = ({ isOpen, maxWidth, onClose, title }) => (
                     isAdmin={isAdmin}
                     onClose={onClose}
                   />
-                  <AllRolesView />
                 </div>
               );
             }}
