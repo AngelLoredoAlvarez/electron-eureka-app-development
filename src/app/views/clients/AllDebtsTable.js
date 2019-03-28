@@ -70,7 +70,7 @@ export const AllDebtsTable = () => (
                 }
               },
               {
-                name: "Contacto 2",
+                name: "Contacto 3",
                 field: "contact",
                 options: {
                   customBodyRender: value =>
@@ -80,7 +80,6 @@ export const AllDebtsTable = () => (
                 }
               },
               {
-                name: "Opciones",
                 field: "idContract",
                 options: {
                   customBodyRender: value => (

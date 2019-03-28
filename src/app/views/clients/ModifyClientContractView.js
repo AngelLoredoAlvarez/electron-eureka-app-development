@@ -6,9 +6,10 @@ import { Mutation, Query } from "react-apollo";
 import { ALL_TOWNS } from "../../graphql/fragments/AllTowns";
 import { ALL_TOWNSHIPS } from "../../graphql/fragments/AllTownships";
 import { ALL_STREETS } from "../../graphql/fragments/AllStreets";
-import { CLIENT_CONTRACT_FIELDS } from "../../graphql/fragments/ClientContractFields";
 import { ALL_CLIENT_CONTRACTS } from "../../graphql/fragments/AllClientContracts";
+import { CLIENT_CONTRACT_FIELDS } from "../../graphql/fragments/ClientContractFields";
 import { MODIFY_CLIENT_CONTRACT } from "../../graphql/mutations/ModifyClientContract";
+import { ALL_CLIENT_CONTRACT_MOVEMENTS } from "../../graphql/queries/AllClientContractMovements";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 import { NetworkError } from "../../components/NetworkError";
 import { GraphQLError } from "../../components/GraphQLError";
@@ -72,6 +73,12 @@ export const ModifyClientContractView = ({
           <Mutation
             mutation={MODIFY_CLIENT_CONTRACT}
             onCompleted={onClose}
+            refetchQueries={() => [
+              {
+                query: ALL_CLIENT_CONTRACT_MOVEMENTS,
+                variables: { idContract }
+              }
+            ]}
             update={(
               cache,
               {
@@ -82,10 +89,7 @@ export const ModifyClientContractView = ({
             ) => {
               const ALL_CLIENT_CONTRACTS_QUERY = gql`
                 query($idClient: UUID!) {
-                  allClientContracts(
-                    condition: { idClient: $idClient }
-                    orderBy: START_DATE_DESC
-                  ) {
+                  allClientContracts(idClient: $idClient) {
                     ...AllClientContracts
                   }
                 }
