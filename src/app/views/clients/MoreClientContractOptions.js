@@ -105,13 +105,17 @@ export class MoreClientContractOptions extends React.Component {
               </Tooltip>
             </MenuItem>
           )}
-          <MenuItem onClick={this.handleOptionsClose}>
-            <Tooltip title="Modificar Datos del Contrato">
-              <IconButton onClick={this.handleModifyClientContractDialogState}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-          </MenuItem>
+          {this.props.status !== "Adeudo" && this.props.status !== "Por Pagar" && (
+            <MenuItem onClick={this.handleOptionsClose}>
+              <Tooltip title="Modificar Datos del Contrato">
+                <IconButton
+                  onClick={this.handleModifyClientContractDialogState}
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+            </MenuItem>
+          )}
           {this.props.status === "Finalizado" && (
             <MenuItem onClick={this.handleOptionsClose}>
               <Tooltip title="Eliminar Contrato">

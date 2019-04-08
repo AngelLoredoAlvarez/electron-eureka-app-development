@@ -59,12 +59,8 @@ export const CommonInformationForm = ({
           >
             {inputProps => (
               <TextField
-                error={errors.firstName && touched.firstName ? true : false}
-                helperText={
-                  errors.firstName && touched.firstName
-                    ? `${errors.firstName}`
-                    : ""
-                }
+                error={errors.firstName && true}
+                helperText={errors.firstName ? `${errors.firstName}` : ""}
                 id="firstName"
                 {...inputProps}
                 label="Apellido Paterno"

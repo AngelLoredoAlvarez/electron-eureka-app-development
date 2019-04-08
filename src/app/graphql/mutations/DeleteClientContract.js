@@ -10,7 +10,6 @@ export const DELETE_CLIENT_CONTRACT = gql`
         idTownship
         idStreet
         exteriorNumber
-        interiorNumber
         typeContract
         startDate
         endDate

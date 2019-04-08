@@ -7,7 +7,6 @@ export const CLIENT_CONTRACT_FIELDS = gql`
     idTownship
     idStreet
     exteriorNumber
-    interiorNumber
     fullAddress
     contacts: businessContactsByIdContract {
       edges {

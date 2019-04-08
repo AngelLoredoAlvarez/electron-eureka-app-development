@@ -12,7 +12,6 @@ export const MODIFY_CLIENT = gql`
         idTownship
         idStreet
         exteriorNumber
-        interiorNumber
         fullAddress
         contacts: clientContactsByIdClient {
           edges {

@@ -61,7 +61,7 @@ export class MoreEmployeeOptions extends React.Component {
             </MenuItem>
           )}
           {this.props.id ===
-          "54be364e-ffe2-11e8-8719-4f16892f7ff6" ? null : this.props.privilegesModules
+          "0cd9b78c-5400-11e9-9fb1-2760f8dcf0cd" ? null : this.props.privilegesModules
               .find(({ module }) => module === "employee")
               .privileges.includes("DELETE") &&
             this.props.id !== this.props.idCurrentEmployee ? (

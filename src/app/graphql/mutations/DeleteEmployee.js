@@ -12,7 +12,6 @@ export const DELETE_EMPLOYEE = gql`
         idTownship
         idStreet
         exteriorNumber
-        interiorNumber
         createdAt
       }
     }

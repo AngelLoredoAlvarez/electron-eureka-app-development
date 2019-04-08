@@ -1,7 +1,10 @@
 import React from "react";
-import { FormControl, Grid, TextField } from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 import InputMask from "react-input-mask";
 import AutocompleteSelect from "./AutocompleteSelect";
+import { TownMenuButton } from "./TownMenuButton";
+import { TownshipMenuButton } from "./TownshipMenuButton";
+import { StreetMenuButton } from "./StreetMenuButton";
 
 export class AddressInformation extends React.Component {
   constructor(props) {
@@ -11,16 +14,16 @@ export class AddressInformation extends React.Component {
       allTownsSuggestions: props.allTownsSuggestions,
       allTownshipsSuggestions: props.allTownshipsSuggestions,
       allStreetsSuggestions: props.allStreetsSuggestions,
-      filteredTownshipsSuggestions:
-        props.idTownship &&
-        props.allTownshipsSuggestions.filter(
-          township => township.link === props.idTown
-        ),
-      filteredStreetsSuggestions:
-        props.idStreet &&
-        props.allStreetsSuggestions.filter(
-          street => street.link === props.idTownship
-        ),
+      filteredTownshipsSuggestions: props.idTownship
+        ? props.allTownshipsSuggestions.filter(
+            township => township.link === props.idTown
+          )
+        : [],
+      filteredStreetsSuggestions: props.idStreet
+        ? props.allStreetsSuggestions.filter(
+            street => street.link === props.idTownship
+          )
+        : [],
       selectedTown: props.idTown
         ? props.allTownsSuggestions.find(town => town.value === props.idTown)
         : null,
@@ -37,6 +40,28 @@ export class AddressInformation extends React.Component {
     };
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    const { selectedTown, selectedTownship } = this.state;
+
+    if (prevProps !== this.props) {
+      this.setState({
+        allTownsSuggestions: this.props.allTownsSuggestions,
+        allTownshipsSuggestions: this.props.allTownshipsSuggestions,
+        allStreetsSuggestions: this.props.allStreetsSuggestions,
+        filteredTownshipsSuggestions: selectedTown
+          ? this.props.allTownshipsSuggestions.filter(
+              township => township.link === selectedTown.value
+            )
+          : [],
+        filteredStreetsSuggestions: selectedTownship
+          ? this.props.allStreetsSuggestions.filter(
+              street => street.link === selectedTownship.value
+            )
+          : []
+      });
+    }
+  };
+
   handleTownChange = selectedTown => {
     const newFilteredTownshipsSuggestions = this.state.allTownshipsSuggestions.filter(
       township => township.link === selectedTown.value
@@ -50,13 +75,18 @@ export class AddressInformation extends React.Component {
 
     this.props.setFieldValue("idTown", selectedTown.value);
 
-    this.handleTownshipChange(newFilteredTownshipsSuggestions[0]);
+    newFilteredTownshipsSuggestions.length > 0
+      ? this.handleTownshipChange(newFilteredTownshipsSuggestions[0])
+      : this.handleTownshipChange(null);
   };
 
   handleTownshipChange = selectedTownship => {
-    const newFilteredStreetsSuggestions = this.state.allStreetsSuggestions.filter(
-      street => street.link === selectedTownship.value
-    );
+    const newFilteredStreetsSuggestions =
+      selectedTownship !== null
+        ? this.state.allStreetsSuggestions.filter(
+            street => street.link === selectedTownship.value
+          )
+        : [];
 
     this.setState({
       filteredStreetsSuggestions: newFilteredStreetsSuggestions,
@@ -64,47 +94,62 @@ export class AddressInformation extends React.Component {
       selectedStreet: newFilteredStreetsSuggestions[0]
     });
 
-    this.props.setFieldValue("idTownship", selectedTownship.value);
+    this.props.setFieldValue(
+      "idTownship",
+      selectedTownship !== null ? selectedTownship.value : ""
+    );
 
-    this.handleStreetChange(newFilteredStreetsSuggestions[0]);
+    newFilteredStreetsSuggestions.length > 0
+      ? this.handleStreetChange(newFilteredStreetsSuggestions[0])
+      : this.handleStreetChange(null);
   };
 
   handleStreetChange = selectedStreet => {
+    this.props.setFieldValue(
+      "idStreet",
+      selectedStreet !== null ? selectedStreet.value : ""
+    );
     this.setState({ selectedStreet });
-    this.props.setFieldValue("idStreet", selectedStreet.value);
-  };
-
-  handleManageAddressInformationDialogState = () => {
-    this.setState(state => ({
-      manageAddressInformationDialogState: !state.manageAddressInformationDialogState
-    }));
   };
 
   render() {
     return (
-      <Grid container={true} direction="row" item={true} spacing={8} xs={12}>
+      <Grid container={true} direction="row" item={true} xs={12}>
         <Grid item={true} xs={3}>
           <AutocompleteSelect
             error={this.props.errors.idTown}
             fullWidth={true}
             handleChange={this.handleTownChange}
             isDisabled={this.props.disableAdmin}
-            placeholder="Ciudad..."
+            placeholder="Municipio"
             suggestions={this.state.allTownsSuggestions}
             touched={this.props.touched.idTown}
             value={this.state.selectedTown}
           />
         </Grid>
-        <Grid item={true} xs={4}>
+        <Grid item={true}>
+          <TownMenuButton
+            selectedTown={this.state.selectedTown}
+            setSelection={this.handleTownChange}
+          />
+        </Grid>
+        <Grid item={true} xs={3}>
           <AutocompleteSelect
             error={this.props.errors.idTownship}
             fullWidth={true}
             handleChange={this.handleTownshipChange}
             isDisabled={this.props.disableAdmin}
-            placeholder="Colonia..."
+            placeholder="Asentamiento"
             suggestions={this.state.filteredTownshipsSuggestions}
             touched={this.props.touched.idTownship}
             value={this.state.selectedTownship}
+          />
+        </Grid>
+        <Grid item={true}>
+          <TownshipMenuButton
+            selectedTown={this.state.selectedTown}
+            selectedTownship={this.state.selectedTownship}
+            setSelection={this.handleTownshipChange}
           />
         </Grid>
         <Grid item={true} xs={3}>
@@ -113,67 +158,43 @@ export class AddressInformation extends React.Component {
             fullWidth={true}
             handleChange={this.handleStreetChange}
             isDisabled={this.props.disableAdmin}
-            placeholder="Calle..."
+            placeholder="Calle"
             suggestions={this.state.filteredStreetsSuggestions}
             touched={this.props.touched.idStreet}
             value={this.state.selectedStreet}
           />
         </Grid>
-        <Grid item={true} xs={1}>
-          <FormControl fullWidth={true}>
-            <InputMask
-              alwaysShowMask={true}
-              disabled={this.props.disableAdmin}
-              formatChars={{ "?": "[0-9]" }}
-              mask="?????"
-              maskChar=""
-              onChange={this.props.handleChange}
-              value={this.props.values.exteriorNumber}
-            >
-              {inputProps => (
-                <TextField
-                  error={
-                    this.props.errors.exteriorNumber &&
-                    this.props.touched.exteriorNumber
-                      ? true
-                      : false
-                  }
-                  helperText={
-                    this.props.errors.exteriorNumber &&
-                    this.props.touched.exteriorNumber
-                      ? `${this.props.errors.exteriorNumber}`
-                      : ""
-                  }
-                  id="exteriorNumber"
-                  {...inputProps}
-                  label="No. Ext."
-                  name="exteriorNumber"
-                />
-              )}
-            </InputMask>
-          </FormControl>
+        <Grid item={true}>
+          <StreetMenuButton
+            selectedTownship={this.state.selectedTownship}
+            selectedStreet={this.state.selectedStreet}
+            setSelection={this.handleStreetChange}
+          />
         </Grid>
         <Grid item={true} xs={1}>
-          <FormControl fullWidth={true}>
-            <InputMask
-              alwaysShowMask={true}
-              disabled={this.props.disableAdmin}
-              formatChars={{ "?": "[0-9]" }}
-              mask="?????"
-              maskChar=""
-              onChange={this.props.handleChange}
-              value={this.props.values.interiorNumber}
-            >
-              {inputProps => (
-                <TextField
-                  id="interiorNumber"
-                  {...inputProps}
-                  label="No. Int."
-                  name="interiorNumber"
-                />
-              )}
-            </InputMask>
-          </FormControl>
+          <InputMask
+            alwaysShowMask={true}
+            formatChars={{ "?": "[0-9]" }}
+            mask="?????"
+            maskChar=""
+            onChange={this.props.handleChange}
+            value={this.props.values.exteriorNumber}
+          >
+            {inputProps => (
+              <TextField
+                error={this.props.errors.exteriorNumber && true}
+                helperText={
+                  this.props.errors.exteriorNumber
+                    ? `${this.props.errors.exteriorNumber}`
+                    : ""
+                }
+                id="exteriorNumber"
+                {...inputProps}
+                label="No. Ext."
+                name="exteriorNumber"
+              />
+            )}
+          </InputMask>
         </Grid>
       </Grid>
     );

@@ -10,7 +10,6 @@ export const EMPLOYEE_FIELDS = gql`
     idTownship
     idStreet
     exteriorNumber
-    interiorNumber
     contacts: employeeContactsByIdEmployee {
       edges {
         node {

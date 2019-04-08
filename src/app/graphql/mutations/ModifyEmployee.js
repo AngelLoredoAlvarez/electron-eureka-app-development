@@ -13,7 +13,6 @@ export const MODIFY_EMPLOYEE = gql`
           idTownship
           idStreet
           exteriorNumber
-          interiorNumber
           fullAddress
           contacts: employeeContactsByIdEmployee {
             edges {

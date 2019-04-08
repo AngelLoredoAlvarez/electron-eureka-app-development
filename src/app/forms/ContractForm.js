@@ -40,7 +40,6 @@ export const ContractForm = ({
   idTownship,
   idStreet,
   exteriorNumber,
-  interiorNumber,
   contacts,
   id,
   idClient,
@@ -54,7 +53,6 @@ export const ContractForm = ({
       idTownship: idTown ? idTownship : "",
       idStreet: idStreet ? idStreet : "",
       exteriorNumber: exteriorNumber ? exteriorNumber : "",
-      interiorNumber: interiorNumber ? interiorNumber : "",
       contact_one: contacts
         ? contacts.edges.length === 3 ||
           contacts.edges.length === 2 ||
@@ -112,7 +110,6 @@ export const ContractForm = ({
         idTownship: values.idTownship,
         idStreet: values.idStreet,
         exteriorNumber: values.exteriorNumber,
-        interiorNumber: values.interiorNumber,
         typeContract: values.typeContract,
         contacts: []
       };

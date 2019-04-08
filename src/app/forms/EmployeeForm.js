@@ -70,7 +70,6 @@ export const EmployeeForm = ({
   idTownship,
   idStreet,
   exteriorNumber,
-  interiorNumber,
   contacts,
   username,
   role,
@@ -89,7 +88,6 @@ export const EmployeeForm = ({
       idTownship: idTown ? idTownship : "",
       idStreet: idStreet ? idStreet : "",
       exteriorNumber: exteriorNumber ? exteriorNumber : "",
-      interiorNumber: interiorNumber ? interiorNumber : "",
       contact_one: contacts
         ? contacts.edges.length === 3 ||
           contacts.edges.length === 2 ||
@@ -152,7 +150,6 @@ export const EmployeeForm = ({
         idTownship: values.idTownship,
         idStreet: values.idStreet,
         exteriorNumber: values.exteriorNumber,
-        interiorNumber: interiorNumber,
         contacts: [],
         username: values.username,
         password: values.password,

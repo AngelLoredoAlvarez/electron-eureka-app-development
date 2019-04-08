@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
     "Selecciona una Colonia"
   ),
   idStreet: Yup.string("Selecciona una Calle").required("Selecciona una Calle"),
-  exteriorNumber: Yup.string("Ingresa").required("Ingresa"),
+  exteriorNumber: Yup.string("Requerido").required("Requerido"),
   contact_one: Yup.string().notRequired(),
   type_contact_one: Yup.string()
     .notRequired()
@@ -45,7 +45,6 @@ export const ClientForm = ({
   idTownship,
   idStreet,
   exteriorNumber,
-  interiorNumber,
   contacts,
   id,
   onClose
@@ -59,7 +58,6 @@ export const ClientForm = ({
       idTownship: idTown ? idTownship : "",
       idStreet: idStreet ? idStreet : "",
       exteriorNumber: exteriorNumber ? exteriorNumber : "",
-      interiorNumber: interiorNumber ? interiorNumber : "",
       contact_one: contacts
         ? contacts.edges.length === 3 ||
           contacts.edges.length === 2 ||
@@ -119,7 +117,6 @@ export const ClientForm = ({
         idTownship: values.idTownship,
         idStreet: values.idStreet,
         exteriorNumber: values.exteriorNumber,
-        interiorNumber: values.interiorNumber,
         contacts: []
       };
 

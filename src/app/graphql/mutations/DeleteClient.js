@@ -12,7 +12,6 @@ export const DELETE_CLIENT = gql`
         idTownship
         idStreet
         exteriorNumber
-        interiorNumber
         createdAt
       }
     }
