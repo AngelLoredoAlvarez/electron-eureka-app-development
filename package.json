@@ -53,5 +53,14 @@
     "renderer": {
       "webpackConfig": "webpack.renderer.additions.js"
     }
+  },
+  "build": {
+    "nsis": {
+      "allowElevation": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": true,
+      "include": "./build/installer.nsh"
+    }
   }
 }
