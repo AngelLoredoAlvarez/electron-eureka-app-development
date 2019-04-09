@@ -35,7 +35,7 @@ export const UpdateContractsView = ({ updateContractsStatus }) => {
         if (data) {
           if (data.authenticate.jwtToken) {
             sessionStorage.setItem("jwtToken", data.authenticate.jwtToken);
-            return <Redirect to="/main" />;
+            return <Redirect exact={true} to="/main" />;
           }
         }
 

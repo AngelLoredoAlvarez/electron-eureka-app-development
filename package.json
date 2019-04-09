@@ -1,5 +1,7 @@
 {
-  "name": "eureka",
+  "author": "L - 17 Development Team",
+  "description": "Aplicación de Escritorio para Eureka",
+  "name": "Eureka",
   "version": "1.0.0",
   "license": "ISC",
   "scripts": {
