@@ -31,9 +31,9 @@
     "react-apollo": "^2.5.4",
     "react-dom": "^16.8.6",
     "react-input-mask": "^2.0.4",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^4.3.1",
     "react-select": "^2.4.2",
-    "source-map-support": "^0.5.12",
+    "source-map-support": "^0.5.10",
     "yup": "^0.27.0"
   },
   "devDependencies": {
@@ -43,11 +43,11 @@
     "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
     "babel-loader": "^8.0.5",
-    "electron": "4.1.4",
-    "electron-builder": "20.39.0",
+    "electron": "^4.0.1",
+    "electron-builder": "^20.38.4",
     "electron-devtools-installer": "^2.2.4",
     "electron-webpack": "2.6.2",
-    "webpack": "4.29.6"
+    "webpack": "^4.28.4"
   },
   "electronWebpack": {
     "renderer": {
