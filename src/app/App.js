@@ -10,8 +10,8 @@ export const App = () => (
   <ApolloProvider client={client}>
     <Router>
       <Switch>
-        <Route exact={true} component={LoginView} path="/" />
-        <Route exact={true} component={MainView} path="/main" />
+        <Route component={LoginView} exact={true} path="/" />
+        <Route component={MainView} exact={true} path="/main" />
       </Switch>
     </Router>
   </ApolloProvider>
