@@ -13,6 +13,7 @@ import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { CHARGE_MONTH } from "../../graphql/mutations/ChargeMonth";
 import { ALL_CONTRACTS_TO_PAY } from "../../graphql/fragments/AllContractsToPay";
+import { ALL_CLIENT_CONTRACTS } from "../../graphql/fragments/AllClientContracts";
 import { ALL_CLIENT_CONTRACT_MOVEMENTS } from "../../graphql/queries/AllClientContractMovements";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 
@@ -25,13 +26,17 @@ const ALL_CONTRACTS_TO_PAY_QUERY = gql`
   ${ALL_CONTRACTS_TO_PAY}
 `;
 
-export const ChargeMonth = ({ client, idContract }) => {
+export const ChargeMonth = ({ client, idClient, idContract }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <React.Fragment>
       <Tooltip title="Cobrar Mensualidad">
-        <Fab color="primary" onClick={() => setIsOpen(!isOpen)} size="small">
+        <Fab
+          color="primary"
+          onClick={() => setIsOpen(prevState => !prevState)}
+          size="small"
+        >
           <AttachMoney />
         </Fab>
       </Tooltip>
@@ -43,8 +48,19 @@ export const ChargeMonth = ({ client, idContract }) => {
         >
           <Mutation
             mutation={CHARGE_MONTH}
-            onCompleted={() => setIsOpen(!isOpen)}
+            onCompleted={() => setIsOpen(prevState => !prevState)}
             refetchQueries={() => [
+              {
+                query: gql`
+                  query($idClient: Int!) {
+                    allClientContracts(idClient: $idClient) {
+                      ...AllClientContracts
+                    }
+                  }
+                  ${ALL_CLIENT_CONTRACTS}
+                `,
+                variables: { idClient }
+              },
               {
                 query: ALL_CLIENT_CONTRACT_MOVEMENTS,
                 variables: { idContract }
@@ -71,7 +87,7 @@ export const ChargeMonth = ({ client, idContract }) => {
 
               return null;
             }}
-            variables={{ month: { idContract } }}
+            variables={{ monthInput: { idContract } }}
           >
             {(chargeMonth, { loading }) => {
               if (loading) return <LoadingProgressSpinner />;
@@ -80,7 +96,8 @@ export const ChargeMonth = ({ client, idContract }) => {
                 <React.Fragment>
                   <DialogContent>
                     <DialogContentText>
-                      ¿Desea cobrar la mensualidad del cliente: {client}?
+                      ¿Desea cobrar la mensualidad del cliente:{" "}
+                      {client.fullName}?
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
@@ -93,7 +110,7 @@ export const ChargeMonth = ({ client, idContract }) => {
                     </Button>
                     <Button
                       color="secondary"
-                      onClick={() => setIsOpen(!isOpen)}
+                      onClick={() => setIsOpen(prevState => !prevState)}
                       variant="contained"
                     >
                       Cancelar

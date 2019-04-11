@@ -97,6 +97,7 @@ export const AllContractsToPayTable = withStyles(
                 customBodyRender: value => (
                   <ChargeMonth
                     client={value.node.contract.client.fullName}
+                    idClient={value.node.contract.client.id}
                     idContract={value.node.contract.id}
                   />
                 )

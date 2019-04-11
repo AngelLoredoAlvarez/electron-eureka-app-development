@@ -60,8 +60,7 @@ export class MoreEmployeeOptions extends React.Component {
               </Tooltip>
             </MenuItem>
           )}
-          {this.props.id ===
-          "0cd9b78c-5400-11e9-9fb1-2760f8dcf0cd" ? null : this.props.privilegesModules
+          {this.props.id === "1" ? null : this.props.privilegesModules
               .find(({ module }) => module === "employee")
               .privileges.includes("DELETE") &&
             this.props.id !== this.props.idCurrentEmployee ? (

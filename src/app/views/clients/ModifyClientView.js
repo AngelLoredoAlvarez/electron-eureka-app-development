@@ -14,7 +14,7 @@ import { NetworkError } from "../../components/NetworkError";
 import { GraphQLError } from "../../components/GraphQLError";
 
 const ALL_TOWNS_TOWNSHIPS_STREETS_CLIENT_QUERY = gql`
-  query($id: UUID!) {
+  query($id: Int!) {
     allTowns {
       ...AllTowns
     }

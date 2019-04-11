@@ -9,7 +9,7 @@ import { CustomToolbarClientContracts } from "./CustomToolbarClientContracts";
 import { MoreClientContractOptions } from "./MoreClientContractOptions";
 
 const ALL_CLIENT_CONTRACTS_QUERY = gql`
-  query($idClient: UUID!) {
+  query($idClient: Int!) {
     allClientContracts(idClient: $idClient) {
       ...AllClientContracts
     }

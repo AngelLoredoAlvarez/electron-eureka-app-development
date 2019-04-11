@@ -7,6 +7,7 @@ export const ALL_CONTRACTS_TO_PAY = gql`
         contract: clientContractByIdContract {
           business
           client: clientByIdClient {
+            id
             fullName
           }
           contacts: businessContactsByIdContract {

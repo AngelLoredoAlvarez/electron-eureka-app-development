@@ -7,7 +7,7 @@ import { CLIENT_CONTRACT_FIELDS } from "../../graphql/fragments/ClientContractFi
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 
 const CLIENT_CONTRACT_BY_ID_QUERY = gql`
-  query($id: UUID!) {
+  query($id: Int!) {
     clientContractById(id: $id) {
       ...ClientContractFields
     }

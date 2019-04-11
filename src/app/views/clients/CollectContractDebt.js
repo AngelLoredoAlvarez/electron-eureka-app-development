@@ -28,7 +28,11 @@ export const CollectContractDebt = ({
   return (
     <React.Fragment>
       <Tooltip title="Cobrar">
-        <Fab color="primary" onClick={() => setIsOpen(!isOpen)} size="small">
+        <Fab
+          color="primary"
+          onClick={() => setIsOpen(prevState => !prevState)}
+          size="small"
+        >
           <AttachMoney />
         </Fab>
       </Tooltip>
@@ -36,25 +40,25 @@ export const CollectContractDebt = ({
         <CustomDialog isOpen={isOpen} maxWidth="sm" title="¿Cobrar Adeudo?">
           <Mutation
             mutation={COLLECT_CONTRACT_DEBT}
-            onCompleted={() => setIsOpen(!isOpen)}
+            onCompleted={() => setIsOpen(prevState => !prevState)}
             refetchQueries={() => [
               {
                 query: ALL_CLIENTS_DEBTS
               },
               {
                 query: gql`
-                  query($idClient: UUID!) {
+                  query($idClient: Int!) {
                     allClientContracts(idClient: $idClient) {
                       ...AllClientContracts
                     }
                   }
                   ${ALL_CLIENT_CONTRACTS}
                 `,
-                variables: { idClient: idClient }
+                variables: { idClient }
               },
               {
                 query: ALL_CLIENT_CONTRACT_MOVEMENTS,
-                variables: { idContract: idContract }
+                variables: { idContract }
               }
             ]}
             variables={{
@@ -84,7 +88,7 @@ export const CollectContractDebt = ({
                     </Button>
                     <Button
                       color="secondary"
-                      onClick={() => setIsOpen(!isOpen)}
+                      onClick={() => setIsOpen(prevState => !prevState)}
                       variant="contained"
                     >
                       Cancelar

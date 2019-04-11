@@ -174,7 +174,7 @@ export class AddressInformation extends React.Component {
         <Grid item={true} xs={1}>
           <InputMask
             alwaysShowMask={true}
-            formatChars={{ "?": "[0-9]" }}
+            formatChars={{ "?": "[S/N0-9]" }}
             mask="?????"
             maskChar=""
             onChange={this.props.handleChange}
