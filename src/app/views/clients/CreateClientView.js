@@ -32,23 +32,21 @@ const ALL_TOWNS_TOWNSHIPS_STREETS_QUERY = gql`
 export const CreateClientView = ({ isOpen, maxWidth, onClose, title }) => (
   <CustomDialog isOpen={isOpen} maxWidth={maxWidth} title={title}>
     <Query query={ALL_TOWNS_TOWNSHIPS_STREETS_QUERY}>
-      {({ data, loading }) => {
+      {({ data: { allTowns, allTownships, allStreets }, loading }) => {
         if (loading) return <LoadingProgressSpinner />;
 
-        const allTownsSuggestions = data.allTowns.edges.map(({ node }) => ({
+        const allTownsSuggestions = allTowns.edges.map(({ node }) => ({
           label: node.town,
           value: node.id
         }));
 
-        const allTownshipsSuggestions = data.allTownships.edges.map(
-          ({ node }) => ({
-            label: node.township,
-            link: node.idTown,
-            value: node.id
-          })
-        );
+        const allTownshipsSuggestions = allTownships.edges.map(({ node }) => ({
+          label: node.township,
+          link: node.idTown,
+          value: node.id
+        }));
 
-        const allStreetsSuggestions = data.allStreets.edges.map(({ node }) => ({
+        const allStreetsSuggestions = allStreets.edges.map(({ node }) => ({
           label: node.street,
           link: node.idTownship,
           value: node.id
@@ -58,7 +56,14 @@ export const CreateClientView = ({ isOpen, maxWidth, onClose, title }) => (
           <Mutation
             mutation={CREATE_CLIENT}
             onCompleted={onClose}
-            update={(cache, { data }) => {
+            update={(
+              cache,
+              {
+                data: {
+                  createClient: { client }
+                }
+              }
+            ) => {
               const ALL_CLIENTS_QUERY = gql`
                 query {
                   allClients(orderBy: CREATED_AT_DESC) {
@@ -74,7 +79,7 @@ export const CreateClientView = ({ isOpen, maxWidth, onClose, title }) => (
 
               allClients.edges.unshift({
                 node: {
-                  ...data.createClient.client
+                  ...client
                 },
                 __typename: "ClientsEdge"
               });
@@ -96,7 +101,7 @@ export const CreateClientView = ({ isOpen, maxWidth, onClose, title }) => (
               if (loading) return <LoadingProgressSpinner />;
 
               return (
-                <div>
+                <React.Fragment>
                   {error ? (
                     error.networkError ? (
                       <NetworkError
@@ -118,7 +123,7 @@ export const CreateClientView = ({ isOpen, maxWidth, onClose, title }) => (
                     allStreetsSuggestions={allStreetsSuggestions}
                     onClose={onClose}
                   />
-                </div>
+                </React.Fragment>
               );
             }}
           </Mutation>

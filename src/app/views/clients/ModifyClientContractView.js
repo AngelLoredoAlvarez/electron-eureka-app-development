@@ -6,7 +6,7 @@ import { Mutation, Query } from "react-apollo";
 import { ALL_TOWNS } from "../../graphql/fragments/AllTowns";
 import { ALL_TOWNSHIPS } from "../../graphql/fragments/AllTownships";
 import { ALL_STREETS } from "../../graphql/fragments/AllStreets";
-import { ALL_CLIENT_CONTRACTS } from "../../graphql/fragments/AllClientContracts";
+import { ALL_CLIENT_CONTRACT_TYPES } from "../../graphql/fragments/AllClientContractTypes";
 import { CLIENT_CONTRACT_FIELDS } from "../../graphql/fragments/ClientContractFields";
 import { MODIFY_CLIENT_CONTRACT } from "../../graphql/mutations/ModifyClientContract";
 import { ALL_CLIENT_CONTRACT_MOVEMENTS } from "../../graphql/queries/AllClientContractMovements";
@@ -15,7 +15,7 @@ import { NetworkError } from "../../components/NetworkError";
 import { GraphQLError } from "../../components/GraphQLError";
 
 const ALL_TOWNS_TOWNSHIPS_STREETS_CLIENT_CONTRACT_QUERY = gql`
-  query($id: UUID!) {
+  query($id: Int!) {
     allTowns {
       ...AllTowns
     }
@@ -25,6 +25,9 @@ const ALL_TOWNS_TOWNSHIPS_STREETS_CLIENT_CONTRACT_QUERY = gql`
     allStreets {
       ...AllStreets
     }
+    allClientContractTypes {
+      ...AllClientContractTypes
+    }
     clientContractById(id: $id) {
       ...ClientContractFields
     }
@@ -32,22 +35,24 @@ const ALL_TOWNS_TOWNSHIPS_STREETS_CLIENT_CONTRACT_QUERY = gql`
   ${ALL_TOWNS}
   ${ALL_TOWNSHIPS}
   ${ALL_STREETS}
+  ${ALL_CLIENT_CONTRACT_TYPES}
   ${CLIENT_CONTRACT_FIELDS}
 `;
 
-export const ModifyClientContractView = ({
-  idClient,
-  idContract,
-  isOpen,
-  onClose
-}) => (
+export const ModifyClientContractView = ({ idContract, isOpen, onClose }) => (
   <CustomDialog isOpen={isOpen} maxWidth="md" title="Modificar Contrato">
     <Query
       query={ALL_TOWNS_TOWNSHIPS_STREETS_CLIENT_CONTRACT_QUERY}
       variables={{ id: idContract }}
     >
       {({
-        data: { allTowns, allTownships, allStreets, clientContractById },
+        data: {
+          allTowns,
+          allTownships,
+          allStreets,
+          allClientContractTypes,
+          clientContractById
+        },
         loading
       }) => {
         if (loading) return <LoadingProgressSpinner />;
@@ -69,6 +74,15 @@ export const ModifyClientContractView = ({
           value: node.id
         }));
 
+        const allClientContractTypesSuggestions = allClientContractTypes.edges.map(
+          ({ node }) => ({
+            label: `${node.typeName} - Precio de Mensualidad:  $${
+              node.monthPrice
+            }`,
+            value: node.id
+          })
+        );
+
         return (
           <Mutation
             mutation={MODIFY_CLIENT_CONTRACT}
@@ -87,39 +101,8 @@ export const ModifyClientContractView = ({
                 }
               }
             ) => {
-              const ALL_CLIENT_CONTRACTS_QUERY = gql`
-                query($idClient: UUID!) {
-                  allClientContracts(idClient: $idClient) {
-                    ...AllClientContracts
-                  }
-                }
-                ${ALL_CLIENT_CONTRACTS}
-              `;
-
-              const { allClientContracts } = cache.readQuery({
-                query: ALL_CLIENT_CONTRACTS_QUERY,
-                variables: { idClient: idClient }
-              });
-
-              allClientContracts.edges.map(({ node }) =>
-                node.id === clientContract.id
-                  ? { node: { ...clientContract } }
-                  : node
-              );
-
-              cache.writeQuery({
-                query: ALL_CLIENT_CONTRACTS_QUERY,
-                variables: { idClient: idClient },
-                data: {
-                  allClientContracts: {
-                    ...allClientContracts,
-                    allClientContracts
-                  }
-                }
-              });
-
               const CLIENT_CONTRACT_BY_ID_QUERY = gql`
-                query($id: UUID!) {
+                query($id: Int!) {
                   clientContractById(id: $id) {
                     ...ClientContractFields
                   }
@@ -165,7 +148,11 @@ export const ModifyClientContractView = ({
                     allTownsSuggestions={allTownsSuggestions}
                     allTownshipsSuggestions={allTownshipsSuggestions}
                     allStreetsSuggestions={allStreetsSuggestions}
+                    allClientContractTypesSuggestions={
+                      allClientContractTypesSuggestions
+                    }
                     {...clientContractById}
+                    idContract={idContract}
                     onClose={onClose}
                   />
                 </div>

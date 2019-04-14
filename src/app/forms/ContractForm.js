@@ -34,6 +34,7 @@ export const ContractForm = ({
   allTownsSuggestions,
   allTownshipsSuggestions,
   allStreetsSuggestions,
+  allClientContractTypesSuggestions,
   business,
   typeContract,
   idTown,
@@ -41,14 +42,14 @@ export const ContractForm = ({
   idStreet,
   exteriorNumber,
   contacts,
-  id,
+  idContract,
   idClient,
   onClose
 }) => (
   <Formik
     initialValues={{
       business: business ? business : "",
-      typeContract: typeContract ? typeContract : "",
+      idTypeContract: typeContract ? typeContract.id : "",
       idTown: idTown ? idTown : "",
       idTownship: idTown ? idTownship : "",
       idStreet: idStreet ? idStreet : "",
@@ -110,7 +111,7 @@ export const ContractForm = ({
         idTownship: values.idTownship,
         idStreet: values.idStreet,
         exteriorNumber: values.exteriorNumber,
-        typeContract: values.typeContract,
+        idTypeContract: values.idTypeContract,
         contacts: []
       };
 
@@ -135,7 +136,7 @@ export const ContractForm = ({
         });
       }
 
-      if (id) contractData.id = id;
+      if (idContract) contractData.id = idContract;
 
       if (idClient) contractData.idClient = idClient;
 
@@ -145,7 +146,6 @@ export const ContractForm = ({
         }
       });
     }}
-    validationSchema={validationSchema}
   >
     {({
       values,
@@ -188,11 +188,14 @@ export const ContractForm = ({
             </Grid>
             <Grid item={true} xs={6}>
               <TypeContract
+                allClientContractTypesSuggestions={
+                  allClientContractTypesSuggestions
+                }
                 error={errors.typeContract}
                 fullWidth={true}
                 setFieldValue={setFieldValue}
                 touched={touched.typeContract}
-                typeContract={typeContract}
+                idTypeContract={typeContract && typeContract.id}
               />
             </Grid>
             <AddressInformation

@@ -21,7 +21,9 @@ const authLink = setContext((_, { headers }) => {
     : { headers };
 });
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  dataIdFromObject: object => object.nodeId
+});
 
 const httpLink = createHttpLink({
   credentials: "same-origin",
@@ -36,7 +38,7 @@ const stateLink = withClientState({
 
 const client = new ApolloClient({
   cache: cache,
-  connectToDevTools: false,
+  connectToDevTools: process.env.NODE_ENV === "development",
   link: ApolloLink.from([authLink, stateLink, httpLink])
 });
 

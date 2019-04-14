@@ -15,6 +15,7 @@ export const ALL_CLIENTS = gql`
           }
         }
         id
+        nodeId
       }
     }
   }

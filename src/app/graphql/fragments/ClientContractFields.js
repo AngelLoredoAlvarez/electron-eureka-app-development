@@ -3,11 +3,13 @@ import gql from "graphql-tag";
 export const CLIENT_CONTRACT_FIELDS = gql`
   fragment ClientContractFields on ClientContract {
     business
+    typeContract: clientContractTypeByIdTypeContract {
+      id
+    }
     idTown
     idTownship
     idStreet
     exteriorNumber
-    fullAddress
     contacts: businessContactsByIdContract {
       edges {
         node {
@@ -16,9 +18,5 @@ export const CLIENT_CONTRACT_FIELDS = gql`
         }
       }
     }
-    typeContract
-    formatedStartDate
-    formatedEndDate
-    id
   }
 `;

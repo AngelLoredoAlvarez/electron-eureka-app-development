@@ -32,38 +32,6 @@ export const ModifyStreetView = ({
 
               onClose();
             }}
-            update={(cache, { data: { modifyStreet } }) => {
-              const ALL_STREETS_QUERY = gql`
-                query {
-                  allStreets {
-                    ...AllStreets
-                  }
-                }
-                ${ALL_STREETS}
-              `;
-
-              const { allStreets } = cache.readQuery({
-                query: ALL_STREETS_QUERY
-              });
-
-              allStreets.edges.map(({ node }) =>
-                node.id === modifyStreet.street.id
-                  ? { node: { ...modifyStreet.street } }
-                  : node
-              );
-
-              cache.writeQuery({
-                query: ALL_STREETS_QUERY,
-                data: {
-                  allStreets: {
-                    ...allStreets,
-                    allStreets
-                  }
-                }
-              });
-
-              return null;
-            }}
           >
             {(modifyStreet, { error, loading }) => {
               if (loading) return <LoadingProgressSpinner />;

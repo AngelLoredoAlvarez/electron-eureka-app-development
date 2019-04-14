@@ -5,6 +5,7 @@ export const ALL_CONTRACTS_TO_PAY = gql`
     edges {
       node {
         contract: clientContractByIdContract {
+          nodeId
           business
           client: clientByIdClient {
             id

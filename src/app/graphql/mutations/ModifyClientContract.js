@@ -5,6 +5,9 @@ export const MODIFY_CLIENT_CONTRACT = gql`
     modifyClientContract(input: $contractData) {
       clientContract {
         business
+        typeContract: clientContractTypeByIdTypeContract {
+          typeName
+        }
         idTown
         idTownship
         idStreet
@@ -18,9 +21,9 @@ export const MODIFY_CLIENT_CONTRACT = gql`
             }
           }
         }
-        typeContract
         formatedStartDate
         formatedEndDate
+        status
         id
       }
     }

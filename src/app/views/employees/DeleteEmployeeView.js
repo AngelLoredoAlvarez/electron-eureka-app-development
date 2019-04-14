@@ -14,7 +14,7 @@ import { CustomDialog } from "../../components/CustomDialog";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 
 const EMPLOYEE_BY_ID_QUERY = gql`
-  query($id: UUID!) {
+  query($id: Int!) {
     employeeById(id: $id) {
       employee {
         ...EmployeeFields

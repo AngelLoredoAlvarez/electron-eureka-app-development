@@ -16,7 +16,7 @@ import { NetworkError } from "../../components/NetworkError";
 import { GraphQLError } from "../../components/GraphQLError";
 
 const CLIENT_BY_ID_QUERY = gql`
-  query($id: UUID!) {
+  query($id: Int!) {
     clientById(id: $id) {
       ...ClientFields
     }
@@ -30,7 +30,7 @@ export const DeleteClientView = ({
   isOpen
 }) => (
   <CustomDialog isOpen={isOpen} title="¿Eliminar Cliente?">
-    <Query query={CLIENT_BY_ID_QUERY} variables={{ id: id }}>
+    <Query query={CLIENT_BY_ID_QUERY} variables={{ id }}>
       {({ data, loading }) => {
         if (loading) return <LoadingProgressSpinner />;
 
@@ -53,7 +53,7 @@ export const DeleteClientView = ({
               });
 
               allClients.edges = allClients.edges.filter(
-                ({ node }) => node.id !== deleteClient.client.id
+                ({ node }) => node.nodeId !== deleteClient.client.nodeId
               );
 
               cache.writeQuery({

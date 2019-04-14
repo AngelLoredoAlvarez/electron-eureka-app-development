@@ -5,6 +5,7 @@ export const MODIFY_EMPLOYEE = gql`
     modifyEmployee(input: $employeeData) {
       selectedEmployee {
         employee {
+          nodeId
           name
           firstName
           lastName
@@ -22,7 +23,6 @@ export const MODIFY_EMPLOYEE = gql`
               }
             }
           }
-          id
         }
         employeeUser {
           username

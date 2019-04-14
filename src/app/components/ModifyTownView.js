@@ -27,38 +27,6 @@ export const ModifyTownView = ({ idTown, isOpen, onClose, setSelection }) => (
 
               onClose();
             }}
-            update={(cache, { data: { modifyTown } }) => {
-              const ALL_TOWNS_QUERY = gql`
-                query {
-                  allTowns {
-                    ...AllTowns
-                  }
-                }
-                ${ALL_TOWNS}
-              `;
-
-              const { allTowns } = cache.readQuery({
-                query: ALL_TOWNS_QUERY
-              });
-
-              allTowns.edges.map(({ node }) =>
-                node.id === modifyTown.town.id
-                  ? { node: { ...modifyTown.town } }
-                  : node
-              );
-
-              cache.writeQuery({
-                query: ALL_TOWNS_QUERY,
-                data: {
-                  allTowns: {
-                    ...allTowns,
-                    allTowns
-                  }
-                }
-              });
-
-              return null;
-            }}
           >
             {(modifyTown, { error, loading }) => {
               if (loading) return <LoadingProgressSpinner />;

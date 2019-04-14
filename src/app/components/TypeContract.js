@@ -1,30 +1,17 @@
 import React from "react";
 import AutocompleteSelect from "./AutocompleteSelect";
+import { Grid, IconButton, Tooltip } from "@material-ui/core";
+import { Assessment } from "@material-ui/icons";
 
 export class TypeContract extends React.Component {
   constructor(props) {
     super(props);
 
-    const typeContractsSuggestions = [
-      {
-        label: "1 MES - $100.00",
-        value: "1 MES"
-      },
-      {
-        label: "2 MESES - $150.00",
-        value: "2 MESES"
-      },
-      {
-        label: "3 MESES - $200.00",
-        value: "3 MESES"
-      }
-    ];
-
     this.state = {
-      typeContractsSuggestions: typeContractsSuggestions,
-      selectedTypeContract: props.typeContract
-        ? typeContractsSuggestions.find(
-            typeContract => typeContract.value === props.typeContract
+      typeContractsSuggestions: props.allClientContractTypesSuggestions,
+      selectedTypeContract: props.idTypeContract
+        ? props.allClientContractTypesSuggestions.find(
+            typeContract => typeContract.value === props.idTypeContract
           )
         : null
     };
@@ -35,20 +22,31 @@ export class TypeContract extends React.Component {
       selectedTypeContract: selectedTypeContract
     });
 
-    this.props.setFieldValue("typeContract", selectedTypeContract.value);
+    this.props.setFieldValue("idTypeContract", selectedTypeContract.value);
   };
 
   render() {
     return (
-      <AutocompleteSelect
-        error={this.props.error}
-        fullWidth={this.props.fullWidth}
-        handleChange={this.handleTypeContractChange}
-        placeholder="Tipo de Contrato..."
-        suggestions={this.state.typeContractsSuggestions}
-        touched={this.props.touched}
-        value={this.state.selectedTypeContract}
-      />
+      <Grid container={true} item={true} xs={12}>
+        <Grid item={true} xs={10}>
+          <AutocompleteSelect
+            error={this.props.error}
+            fullWidth={this.props.fullWidth}
+            handleChange={this.handleTypeContractChange}
+            placeholder="Tipo de Contrato..."
+            suggestions={this.state.typeContractsSuggestions}
+            touched={this.props.touched}
+            value={this.state.selectedTypeContract}
+          />
+        </Grid>
+        <Grid item={true}>
+          <Tooltip title="Administrar Tipos">
+            <IconButton>
+              <Assessment />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+      </Grid>
     );
   }
 }

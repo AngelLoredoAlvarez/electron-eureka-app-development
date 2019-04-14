@@ -17,15 +17,6 @@ import { ALL_CLIENT_CONTRACTS } from "../../graphql/fragments/AllClientContracts
 import { ALL_CLIENT_CONTRACT_MOVEMENTS } from "../../graphql/queries/AllClientContractMovements";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 
-const ALL_CONTRACTS_TO_PAY_QUERY = gql`
-  query {
-    allContractsToPay {
-      ...AllContractsToPay
-    }
-  }
-  ${ALL_CONTRACTS_TO_PAY}
-`;
-
 export const ChargeMonth = ({ client, idClient, idContract }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -67,6 +58,15 @@ export const ChargeMonth = ({ client, idClient, idContract }) => {
               }
             ]}
             update={(cache, { data: { chargeMonth } }) => {
+              const ALL_CONTRACTS_TO_PAY_QUERY = gql`
+                query {
+                  allContractsToPay {
+                    ...AllContractsToPay
+                  }
+                }
+                ${ALL_CONTRACTS_TO_PAY}
+              `;
+
               let { allContractsToPay } = cache.readQuery({
                 query: ALL_CONTRACTS_TO_PAY_QUERY
               });

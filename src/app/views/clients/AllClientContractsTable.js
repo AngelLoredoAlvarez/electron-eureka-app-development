@@ -22,13 +22,20 @@ const ALL_CLIENT_CONTRACTS_QUERY = gql`
 `;
 
 export const AllClientsContractsTable = ({ idClient }) => (
-  <Query query={ALL_CLIENT_CONTRACTS_QUERY} variables={{ idClient: idClient }}>
+  <Query query={ALL_CLIENT_CONTRACTS_QUERY} variables={{ idClient }}>
     {({ data: { allClientContracts, currentEmployee }, loading }) => {
       if (loading) return <LoadingProgressSpinner />;
 
       return (
         <MaterialDatatable
           columns={[
+            {
+              name: "No.",
+              field: "id",
+              options: {
+                customBodyRender: value => `${value.node.id}`
+              }
+            },
             {
               name: "Nombre del Negocio",
               field: "business",
@@ -48,6 +55,13 @@ export const AllClientsContractsTable = ({ idClient }) => (
               field: "formatedEndDate",
               options: {
                 customBodyRender: value => `${value.node.formatedEndDate}`
+              }
+            },
+            {
+              name: "Tipo de Contrato",
+              field: "typeName",
+              options: {
+                customBodyRender: value => value.node.typeContract.typeName
               }
             },
             {

@@ -2,7 +2,6 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { Mutation } from "react-apollo";
 import { UPDATE_CONTRACTS_STATUS } from "../../graphql/mutations/UpdateContractsStatus";
-import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 import { UpdateContractsView } from "./UpdateContractsView";
 
 export const LoginView = () => (

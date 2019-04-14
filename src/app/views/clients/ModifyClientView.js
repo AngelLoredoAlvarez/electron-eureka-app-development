@@ -8,7 +8,6 @@ import { ALL_TOWNSHIPS } from "../../graphql/fragments/AllTownships";
 import { ALL_STREETS } from "../../graphql/fragments/AllStreets";
 import { CLIENT_FIELDS } from "../../graphql/fragments/ClientFields";
 import { MODIFY_CLIENT } from "../../graphql/mutations/ModifyClient";
-import { ALL_CLIENTS } from "../../graphql/fragments/AllClients";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 import { NetworkError } from "../../components/NetworkError";
 import { GraphQLError } from "../../components/GraphQLError";
@@ -40,10 +39,7 @@ export const ModifyClientView = ({
   isOpen
 }) => (
   <CustomDialog isOpen={isOpen} maxWidth="md" title="Modificar Cliente">
-    <Query
-      query={ALL_TOWNS_TOWNSHIPS_STREETS_CLIENT_QUERY}
-      variables={{ id: id }}
-    >
+    <Query query={ALL_TOWNS_TOWNSHIPS_STREETS_CLIENT_QUERY} variables={{ id }}>
       {({
         data: { allTowns, allTownships, allStreets, clientById },
         loading
@@ -71,63 +67,6 @@ export const ModifyClientView = ({
           <Mutation
             mutation={MODIFY_CLIENT}
             onCompleted={handleModifyClientViewDialogState}
-            update={(
-              cache,
-              {
-                data: {
-                  modifyClient: { client }
-                }
-              }
-            ) => {
-              const ALL_CLIENTS_QUERY = gql`
-                query {
-                  allClients(orderBy: CREATED_AT_DESC) {
-                    ...AllClients
-                  }
-                }
-                ${ALL_CLIENTS}
-              `;
-
-              const { allClients } = cache.readQuery({
-                query: ALL_CLIENTS_QUERY
-              });
-
-              allClients.edges.map(({ node }) =>
-                node.id === client.id ? { node: { ...client } } : node
-              );
-
-              cache.writeQuery({
-                query: ALL_CLIENTS_QUERY,
-                data: {
-                  allClients: {
-                    ...allClients,
-                    allClients
-                  }
-                }
-              });
-
-              const CLIENT_BY_ID_QUERY = gql`
-                query($id: UUID!) {
-                  clientById(id: $id) {
-                    ...ClientFields
-                  }
-                }
-                ${CLIENT_FIELDS}
-              `;
-
-              cache.writeQuery({
-                query: CLIENT_BY_ID_QUERY,
-                variables: { id: id },
-                data: {
-                  clientById: {
-                    ...client,
-                    client
-                  }
-                }
-              });
-
-              return null;
-            }}
           >
             {(modifyClient, { error, loading }) => {
               if (loading) return <LoadingProgressSpinner />;

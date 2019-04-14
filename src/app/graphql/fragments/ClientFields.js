@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 
 export const CLIENT_FIELDS = gql`
   fragment ClientFields on Client {
+    nodeId
     name
     firstName
     lastName

@@ -32,38 +32,6 @@ export const ModifyTownshipView = ({
 
               onClose();
             }}
-            update={(cache, { data: { modifyTownship } }) => {
-              const ALL_TOWNSHIPS_QUERY = gql`
-                query {
-                  allTownships {
-                    ...AllTownships
-                  }
-                }
-                ${ALL_TOWNSHIPS}
-              `;
-
-              const { allTownships } = cache.readQuery({
-                query: ALL_TOWNSHIPS_QUERY
-              });
-
-              allTownships.edges.map(({ node }) =>
-                node.id === modifyTownship.township.id
-                  ? { node: { ...modifyTownship.township } }
-                  : node
-              );
-
-              cache.writeQuery({
-                query: ALL_TOWNSHIPS_QUERY,
-                data: {
-                  allTownships: {
-                    ...allTownships,
-                    allTownships
-                  }
-                }
-              });
-
-              return null;
-            }}
           >
             {(modifyTownship, { error, loading }) => {
               if (loading) return <LoadingProgressSpinner />;

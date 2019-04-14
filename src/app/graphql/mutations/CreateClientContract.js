@@ -5,10 +5,12 @@ export const CREATE_CLIENT_CONTRACT = gql`
     createClientContract(input: $contractData) {
       clientContract {
         business
+        typeContract: clientContractTypeByIdTypeContract {
+          typeName
+        }
         formatedStartDate
         formatedEndDate
         status
-        typeContract
         id
       }
     }

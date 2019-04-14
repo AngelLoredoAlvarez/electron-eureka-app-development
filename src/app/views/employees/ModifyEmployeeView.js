@@ -8,7 +8,6 @@ import { ALL_TOWNSHIPS } from "../../graphql/fragments/AllTownships";
 import { ALL_STREETS } from "../../graphql/fragments/AllStreets";
 import { EMPLOYEE_FIELDS } from "../../graphql/fragments/EmployeeFields";
 import { MODIFY_EMPLOYEE } from "../../graphql/mutations/ModifyEmployee";
-import { ALL_EMPLOYEES } from "../../graphql/fragments/AllEmployees";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
 import { NetworkError } from "../../components/NetworkError";
 import { GraphQLError } from "../../components/GraphQLError";
@@ -57,7 +56,7 @@ export const ModifyEmployeeView = ({ id, isOpen, onClose }) => (
   <CustomDialog isOpen={isOpen} maxWidth="md" title="Modificar Empleado">
     <Query
       query={ALL_TOWNS_TOWNSHIPS_STREETS_EMPLOYEE_QUERY}
-      variables={{ id: id }}
+      variables={{ id }}
     >
       {({
         data: {
@@ -174,35 +173,8 @@ export const ModifyEmployeeView = ({ id, isOpen, onClose }) => (
                 }
               }
             ) => {
-              const ALL_EMPLOYEES_QUERY = gql`
-                query {
-                  allEmployees(orderBy: CREATED_AT_DESC) {
-                    ...AllEmployees
-                  }
-                }
-                ${ALL_EMPLOYEES}
-              `;
-
-              const { allEmployees } = cache.readQuery({
-                query: ALL_EMPLOYEES_QUERY
-              });
-
-              allEmployees.edges.map(({ node }) =>
-                node.id === employee.id ? { node: { ...employee } } : node
-              );
-
-              cache.writeQuery({
-                query: ALL_EMPLOYEES_QUERY,
-                data: {
-                  allEmployees: {
-                    ...allEmployees,
-                    allEmployees
-                  }
-                }
-              });
-
               const EMPLOYEE_BY_ID_QUERY = gql`
-                query($id: UUID!) {
+                query($id: Int!) {
                   employeeById(id: $id) {
                     employee {
                       ...EmployeeFields
@@ -218,7 +190,7 @@ export const ModifyEmployeeView = ({ id, isOpen, onClose }) => (
 
               cache.writeQuery({
                 query: EMPLOYEE_BY_ID_QUERY,
-                variables: { id: id },
+                variables: { id },
                 data: {
                   employeeById: {
                     employee: {
@@ -241,7 +213,7 @@ export const ModifyEmployeeView = ({ id, isOpen, onClose }) => (
               if (loading) return <LoadingProgressSpinner />;
 
               return (
-                <div>
+                <React.Fragment>
                   {error ? (
                     error.networkError ? (
                       <NetworkError
@@ -270,7 +242,7 @@ export const ModifyEmployeeView = ({ id, isOpen, onClose }) => (
                     isAdmin={isAdmin}
                     onClose={onClose}
                   />
-                </div>
+                </React.Fragment>
               );
             }}
           </Mutation>

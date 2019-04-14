@@ -6,6 +6,7 @@ import { Mutation, Query } from "react-apollo";
 import { ALL_TOWNS } from "../../graphql/fragments/AllTowns";
 import { ALL_TOWNSHIPS } from "../../graphql/fragments/AllTownships";
 import { ALL_STREETS } from "../../graphql/fragments/AllStreets";
+import { ALL_CLIENT_CONTRACT_TYPES } from "../../graphql/fragments/AllClientContractTypes";
 import { CREATE_CLIENT_CONTRACT } from "../../graphql/mutations/CreateClientContract";
 import { ALL_CLIENT_CONTRACTS } from "../../graphql/fragments/AllClientContracts";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
@@ -23,10 +24,14 @@ const ALL_TOWNS_TOWNSHIPS_STREETS_QUERY = gql`
     allStreets {
       ...AllStreets
     }
+    allClientContractTypes {
+      ...AllClientContractTypes
+    }
   }
   ${ALL_TOWNS}
   ${ALL_TOWNSHIPS}
   ${ALL_STREETS}
+  ${ALL_CLIENT_CONTRACT_TYPES}
 `;
 
 export const CreateClientContractView = ({
@@ -38,7 +43,10 @@ export const CreateClientContractView = ({
 }) => (
   <CustomDialog isOpen={isOpen} maxWidth={maxWidth} title={title}>
     <Query query={ALL_TOWNS_TOWNSHIPS_STREETS_QUERY}>
-      {({ data: { allTowns, allTownships, allStreets }, loading }) => {
+      {({
+        data: { allTowns, allTownships, allStreets, allClientContractTypes },
+        loading
+      }) => {
         if (loading) return <LoadingProgressSpinner />;
 
         const allTownsSuggestions = allTowns.edges.map(({ node }) => ({
@@ -58,13 +66,29 @@ export const CreateClientContractView = ({
           value: node.id
         }));
 
+        const allClientContractTypesSuggestions = allClientContractTypes.edges.map(
+          ({ node }) => ({
+            label: `${node.typeName} - Precio de Mensualidad:  $${
+              node.monthPrice
+            }`,
+            value: node.id
+          })
+        );
+
         return (
           <Mutation
             mutation={CREATE_CLIENT_CONTRACT}
             onCompleted={onClose}
-            update={(cache, { data }) => {
+            update={(
+              cache,
+              {
+                data: {
+                  createClientContract: { clientContract }
+                }
+              }
+            ) => {
               const ALL_CLIENT_CONTRACTS_QUERY = gql`
-                query($idClient: UUID!) {
+                query($idClient: Int!) {
                   allClientContracts(idClient: $idClient) {
                     ...AllClientContracts
                   }
@@ -74,19 +98,19 @@ export const CreateClientContractView = ({
 
               const { allClientContracts } = cache.readQuery({
                 query: ALL_CLIENT_CONTRACTS_QUERY,
-                variables: { idClient: idClient }
+                variables: { idClient }
               });
 
               allClientContracts.edges.unshift({
                 node: {
-                  ...data.createClientContract.clientContract
+                  ...clientContract
                 },
                 __typename: "ClientContractsEdge"
               });
 
               cache.writeQuery({
                 query: ALL_CLIENT_CONTRACTS_QUERY,
-                variables: { idClient: idClient },
+                variables: { idClient },
                 data: {
                   allClientContracts: {
                     ...allClientContracts,
@@ -102,7 +126,7 @@ export const CreateClientContractView = ({
               if (loading) return <LoadingProgressSpinner />;
 
               return (
-                <div>
+                <React.Fragment>
                   {error ? (
                     error.networkError ? (
                       <NetworkError
@@ -122,10 +146,13 @@ export const CreateClientContractView = ({
                     allTownsSuggestions={allTownsSuggestions}
                     allTownshipsSuggestions={allTownshipsSuggestions}
                     allStreetsSuggestions={allStreetsSuggestions}
+                    allClientContractTypesSuggestions={
+                      allClientContractTypesSuggestions
+                    }
                     idClient={idClient}
                     onClose={onClose}
                   />
-                </div>
+                </React.Fragment>
               );
             }}
           </Mutation>

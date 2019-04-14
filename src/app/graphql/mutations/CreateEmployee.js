@@ -15,6 +15,7 @@ export const CREATE_EMPLOYEE = gql`
           }
         }
         id
+        nodeId
       }
     }
   }

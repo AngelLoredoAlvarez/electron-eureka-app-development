@@ -4,7 +4,7 @@ export const DELETE_EMPLOYEE = gql`
   mutation($employeeInput: DeleteEmployeeInput!) {
     deleteEmployee(input: $employeeInput) {
       employee {
-        id
+        nodeId
         name
         firstName
         lastName

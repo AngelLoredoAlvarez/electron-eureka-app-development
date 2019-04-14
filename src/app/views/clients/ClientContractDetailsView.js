@@ -37,16 +37,6 @@ export const ClientContractDetailsView = ({
             <Grid container={true} spacing={24}>
               <Grid container={true} item={true} xs={12}>
                 <Grid item={true}>
-                  <FormLabel component="legend">Tipo de Contrato:</FormLabel>
-                </Grid>
-                <Grid item={true}>
-                  <FormLabel component="legend">
-                    {clientContractById.typeContract}
-                  </FormLabel>
-                </Grid>
-              </Grid>
-              <Grid container={true} item={true} xs={12}>
-                <Grid item={true}>
                   <FormLabel component="legend">Dirección:</FormLabel>
                 </Grid>
                 <Grid item={true}>
