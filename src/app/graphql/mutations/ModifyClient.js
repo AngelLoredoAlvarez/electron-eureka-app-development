@@ -4,7 +4,6 @@ export const MODIFY_CLIENT = gql`
   mutation($clientData: ModifyClientInput!) {
     modifyClient(input: $clientData) {
       client {
-        nodeId
         name
         firstName
         lastName
@@ -22,6 +21,7 @@ export const MODIFY_CLIENT = gql`
             }
           }
         }
+        nodeId
       }
     }
   }

@@ -7,5 +7,8 @@ export const EMPLOYEE_APP_DATA = gql`
       id
       fullName
     }
+    employeeUser {
+      role
+    }
   }
 `;

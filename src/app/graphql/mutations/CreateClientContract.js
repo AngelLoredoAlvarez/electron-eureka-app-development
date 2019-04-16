@@ -6,12 +6,14 @@ export const CREATE_CLIENT_CONTRACT = gql`
       clientContract {
         business
         typeContract: clientContractTypeByIdTypeContract {
+          id
           typeName
         }
         formatedStartDate
         formatedEndDate
         status
         id
+        nodeId
       }
     }
   }

@@ -4,7 +4,6 @@ export const DELETE_CLIENT = gql`
   mutation($clientInput: DeleteClientInput!) {
     deleteClient(input: $clientInput) {
       client {
-        nodeId
         name
         firstName
         lastName
@@ -13,6 +12,7 @@ export const DELETE_CLIENT = gql`
         idStreet
         exteriorNumber
         createdAt
+        nodeId
       }
     }
   }

@@ -49,7 +49,7 @@ export const DeleteEmployeeView = ({ id, isOpen, onClose }) => (
               });
 
               allEmployees.edges = allEmployees.edges.filter(
-                ({ node }) => node.id !== deleteEmployee.employee.id
+                ({ node }) => node.nodeId !== deleteEmployee.employee.nodeId
               );
 
               cache.writeQuery({

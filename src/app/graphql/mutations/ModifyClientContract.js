@@ -6,6 +6,7 @@ export const MODIFY_CLIENT_CONTRACT = gql`
       clientContract {
         business
         typeContract: clientContractTypeByIdTypeContract {
+          id
           typeName
         }
         idTown
@@ -25,6 +26,7 @@ export const MODIFY_CLIENT_CONTRACT = gql`
         formatedEndDate
         status
         id
+        nodeId
       }
     }
   }

@@ -6,6 +6,7 @@ import { EmployeeForm } from "../../forms/EmployeeForm";
 import { ALL_TOWNS } from "../../graphql/fragments/AllTowns";
 import { ALL_TOWNSHIPS } from "../../graphql/fragments/AllTownships";
 import { ALL_STREETS } from "../../graphql/fragments/AllStreets";
+import { EMPLOYEE_APP_DATA } from "../../graphql/fragments/EmployeeAppData";
 import { EMPLOYEE_FIELDS } from "../../graphql/fragments/EmployeeFields";
 import { MODIFY_EMPLOYEE } from "../../graphql/mutations/ModifyEmployee";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
@@ -38,18 +39,14 @@ const ALL_TOWNS_TOWNSHIPS_STREETS_EMPLOYEE_QUERY = gql`
       }
     }
     currentEmployee {
-      employee {
-        id
-      }
-      employeeUser {
-        role
-      }
+      ...EmployeeAppData
     }
   }
   ${ALL_TOWNS}
   ${ALL_TOWNSHIPS}
   ${ALL_STREETS}
   ${EMPLOYEE_FIELDS}
+  ${EMPLOYEE_APP_DATA}
 `;
 
 export const ModifyEmployeeView = ({ id, isOpen, onClose }) => (

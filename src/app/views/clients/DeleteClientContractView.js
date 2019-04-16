@@ -28,7 +28,7 @@ export const DeleteClientContractView = ({
   isOpen,
   onClose
 }) => (
-  <CustomDialog isOpen={isOpen} title="¿Eliminar Cliente?">
+  <CustomDialog isOpen={isOpen} title="¿Eliminar Contrato?">
     <Query query={CLIENT_CONTRACT_BY_ID_QUERY} variables={{ id: idContract }}>
       {({ data, loading }) => {
         if (loading) return <LoadingProgressSpinner />;
@@ -46,11 +46,8 @@ export const DeleteClientContractView = ({
               }
             ) => {
               const ALL_CLIENT_CONTRACTS_QUERY = gql`
-                query($idClient: UUID!) {
-                  allClientContracts(
-                    condition: { idClient: $idClient }
-                    orderBy: START_DATE_DESC
-                  ) {
+                query($idClient: Int!) {
+                  allClientContracts {
                     ...AllClientContracts
                   }
                 }
@@ -59,16 +56,16 @@ export const DeleteClientContractView = ({
 
               let { allClientContracts } = cache.readQuery({
                 query: ALL_CLIENT_CONTRACTS_QUERY,
-                variables: { idClient: idClient }
+                variables: { idClient }
               });
 
               allClientContracts.edges = allClientContracts.edges.filter(
-                ({ node }) => node.id !== clientContract.id
+                ({ node }) => node.nodeId !== clientContract.nodeId
               );
 
               cache.writeQuery({
                 query: ALL_CLIENT_CONTRACTS_QUERY,
-                variables: { idClient: idClient },
+                variables: { idClient },
                 data: {
                   allClientContracts: {
                     ...allClientContracts,

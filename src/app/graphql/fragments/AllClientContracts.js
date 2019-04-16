@@ -4,14 +4,16 @@ export const ALL_CLIENT_CONTRACTS = gql`
   fragment AllClientContracts on ClientContractsConnection {
     edges {
       node {
-        id
         business
         typeContract: clientContractTypeByIdTypeContract {
+          id
           typeName
         }
         formatedStartDate
         formatedEndDate
         status
+        id
+        nodeId
       }
     }
   }

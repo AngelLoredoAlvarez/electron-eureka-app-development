@@ -33,7 +33,7 @@ export const MainView = () => (
       if (loading) return <LoadingProgressSpinner />;
 
       return (
-        <div>
+        <React.Fragment>
           {error ? (
             error.networkError ? (
               <NetworkError isOpen={true} networkError={error.networkError} />
@@ -57,7 +57,7 @@ export const MainView = () => (
           <AllClientsView />
 
           <AllEmployeesView />
-        </div>
+        </React.Fragment>
       );
     }}
   </Query>

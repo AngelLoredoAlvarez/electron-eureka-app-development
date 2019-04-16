@@ -5,6 +5,7 @@ export const CLIENT_CONTRACT_FIELDS = gql`
     business
     typeContract: clientContractTypeByIdTypeContract {
       id
+      typeName
     }
     idTown
     idTownship
@@ -18,5 +19,6 @@ export const CLIENT_CONTRACT_FIELDS = gql`
         }
       }
     }
+    nodeId
   }
 `;

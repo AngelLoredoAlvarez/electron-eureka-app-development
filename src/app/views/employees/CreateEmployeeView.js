@@ -5,6 +5,7 @@ import { Mutation, Query } from "react-apollo";
 import { ALL_TOWNS } from "../../graphql/fragments/AllTowns";
 import { ALL_TOWNSHIPS } from "../../graphql/fragments/AllTownships";
 import { ALL_STREETS } from "../../graphql/fragments/AllStreets";
+import { EMPLOYEE_APP_DATA } from "../../graphql/fragments/EmployeeAppData";
 import { CREATE_EMPLOYEE } from "../../graphql/mutations/CreateEmployee";
 import { ALL_EMPLOYEES } from "../../graphql/fragments/AllEmployees";
 import { EmployeeForm } from "../../forms/EmployeeForm";
@@ -29,17 +30,13 @@ const ALL_TOWNS_TOWNSHIPS_STREETS_QUERY = gql`
       }
     }
     currentEmployee {
-      employee {
-        id
-      }
-      employeeUser {
-        role
-      }
+      ...EmployeeAppData
     }
   }
   ${ALL_TOWNS}
   ${ALL_TOWNSHIPS}
   ${ALL_STREETS}
+  ${EMPLOYEE_APP_DATA}
 `;
 
 export const CreateEmployeeView = ({ isOpen, maxWidth, onClose, title }) => (
@@ -80,9 +77,8 @@ export const CreateEmployeeView = ({ isOpen, maxWidth, onClose, title }) => (
           }));
 
         let isAdmin = false;
-        if (currentEmployee.employeeUser.role === "eureka_administrador") {
+        if (currentEmployee.employeeUser.role === "eureka_administrador")
           isAdmin = true;
-        }
 
         return (
           <Mutation
