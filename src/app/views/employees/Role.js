@@ -1,5 +1,5 @@
 import React from "react";
-import AutocompleteSelect from "./AutocompleteSelect";
+import AutocompleteSelect from "../../components/AutocompleteSelect";
 
 export class Role extends React.Component {
   constructor(props) {

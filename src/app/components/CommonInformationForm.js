@@ -35,8 +35,8 @@ export const CommonInformationForm = ({
             {inputProps => (
               <TextField
                 autoFocus={true}
-                error={errors.name && true}
-                helperText={errors.name ? `${errors.name}` : ""}
+                error={errors.name && touched.name ? true : false}
+                helperText={errors.name && touched.name ? `${errors.name}` : ""}
                 id="name"
                 {...inputProps}
                 label="Nombre(s)"
@@ -59,8 +59,12 @@ export const CommonInformationForm = ({
           >
             {inputProps => (
               <TextField
-                error={errors.firstName && true}
-                helperText={errors.firstName ? `${errors.firstName}` : ""}
+                error={errors.firstName && touched.firstName ? true : false}
+                helperText={
+                  errors.firstName && touched.firstName
+                    ? `${errors.firstName}`
+                    : ""
+                }
                 id="firstName"
                 {...inputProps}
                 label="Apellido Paterno"

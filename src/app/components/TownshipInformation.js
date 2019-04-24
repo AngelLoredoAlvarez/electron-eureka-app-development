@@ -70,8 +70,8 @@ export const TownshipInformation = ({
   };
 
   return (
-    <Grid container={true} direction="column">
-      <Grid>
+    <Grid container={true} direction="column" spacing={16}>
+      <Grid item={true}>
         <FormControl fullWidth={true}>
           <AutocompleteSelect
             error={errors.typeTownship}
@@ -84,7 +84,7 @@ export const TownshipInformation = ({
           />
         </FormControl>
       </Grid>
-      <Grid>
+      <Grid item={true}>
         <FormControl fullWidth={true}>
           <InputMask
             alwaysShowMask={true}
@@ -111,7 +111,7 @@ export const TownshipInformation = ({
           </InputMask>
         </FormControl>
       </Grid>
-      <Grid>
+      <Grid item={true}>
         <FormControl fullWidth={true}>
           <InputMask
             alwaysShowMask={true}

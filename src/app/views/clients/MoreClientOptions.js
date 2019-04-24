@@ -52,7 +52,7 @@ export class MoreClientOptions extends React.Component {
     const open = Boolean(anchorEl);
 
     return (
-      <div>
+      <React.Fragment>
         <IconButton onClick={this.handleOptionsOpen}>
           <MoreVert />
         </IconButton>
@@ -120,7 +120,7 @@ export class MoreClientOptions extends React.Component {
             isOpen={this.state.allClientContractsViewDialogState}
           />
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }

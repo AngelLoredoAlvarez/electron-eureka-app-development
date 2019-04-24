@@ -65,8 +65,10 @@ export const StreetForm = ({ action, id, street, idTownship, onClose }) => (
                 {inputProps => (
                   <TextField
                     autoFocus={true}
-                    error={errors.street && true}
-                    helperText={errors.street ? `${errors.street}` : ""}
+                    error={errors.street && touched.street ? true : false}
+                    helperText={
+                      errors.street && touched.street ? `${errors.street}` : ""
+                    }
                     id="street"
                     {...inputProps}
                     label="Nombre de la Calle"

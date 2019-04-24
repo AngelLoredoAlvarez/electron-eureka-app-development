@@ -10,7 +10,7 @@ import {
   TextField
 } from "@material-ui/core";
 import InputMask from "react-input-mask";
-import { TypeContract } from "../components/TypeContract";
+import { TypeContract } from "../views/clients/TypeContract";
 import { AddressInformation } from "../components/AddressInformation";
 import { ContactsInformation } from "../components/ContactsInformation";
 
@@ -18,7 +18,7 @@ const validationSchema = Yup.object({
   business: Yup.string("Ingresa el Nombre del Negocio").required(
     "Ingresa el Nombre del Negocio"
   ),
-  typeContract: Yup.string("Selecciona un Tipo de Contrato").required(
+  idTypeContract: Yup.string("Selecciona un Tipo de Contrato").required(
     "Selecciona un Tipo de Contrato"
   ),
   idTown: Yup.string("Selecciona una Ciudad").required("Selecciona una Ciudad"),
@@ -146,6 +146,7 @@ export const ContractForm = ({
         }
       });
     }}
+    validationSchema={validationSchema}
   >
     {({
       values,
@@ -175,8 +176,12 @@ export const ContractForm = ({
                   {inputProps => (
                     <TextField
                       autoFocus={true}
-                      error={errors.business && true}
-                      helperText={errors.business ? `${errors.business}` : ""}
+                      error={errors.business && touched.business ? true : false}
+                      helperText={
+                        errors.business && touched.business
+                          ? `${errors.business}`
+                          : ""
+                      }
                       id="business"
                       {...inputProps}
                       label="Nombre del Negocio"
@@ -194,7 +199,7 @@ export const ContractForm = ({
                 error={errors.typeContract}
                 fullWidth={true}
                 setFieldValue={setFieldValue}
-                touched={touched.typeContract}
+                touched={touched.idTypeContract}
                 idTypeContract={typeContract && typeContract.id}
               />
             </Grid>

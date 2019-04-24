@@ -29,7 +29,7 @@ export const AllClientsTable = () => (
       if (loading) return <LoadingProgressSpinner />;
 
       return (
-        <div>
+        <React.Fragment>
           {error ? (
             error.networkError ? (
               <NetworkError isOpen={true} networkError={error.networkError} />
@@ -131,7 +131,7 @@ export const AllClientsTable = () => (
               viewColumns: false
             }}
           />
-        </div>
+        </React.Fragment>
       );
     }}
   </Query>

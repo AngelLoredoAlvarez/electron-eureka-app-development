@@ -24,7 +24,7 @@ const ALL_TOWNS_TOWNSHIPS_STREETS_QUERY = gql`
     allStreets {
       ...AllStreets
     }
-    allClientContractTypes {
+    allClientContractTypes(orderBy: ID_DESC) {
       ...AllClientContractTypes
     }
   }

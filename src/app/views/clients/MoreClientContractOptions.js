@@ -10,7 +10,7 @@ import {
 } from "@material-ui/icons";
 import { ClientContractDetailsView } from "./ClientContractDetailsView";
 import { ClientContractMovementsView } from "./ClientContractMovementsView";
-import { RenovateClientContract } from "../../components/RenovateClientContract";
+import { RenovateClientContract } from "./RenovateClientContract";
 import { ModifyClientContractView } from "./ModifyClientContractView";
 import { DeleteClientContractView } from "./DeleteClientContractView";
 

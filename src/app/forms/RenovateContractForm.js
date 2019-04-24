@@ -8,7 +8,7 @@ import {
   DialogActions,
   Grid
 } from "@material-ui/core";
-import { TypeContract } from "../components/TypeContract";
+import { TypeContract } from "../views/clients/TypeContract";
 
 const validationSchema = Yup.object({
   typeContract: Yup.string("Selecciona un Tipo de Contrato").required(

@@ -14,7 +14,7 @@ import {
 import InputMask from "react-input-mask";
 import PasswordField from "material-ui-password-field";
 import { CommonInformationForm } from "../components/CommonInformationForm";
-import { Role } from "../components/Role";
+import { Role } from "../views/employees/Role";
 import { Mutation } from "react-apollo";
 import { UPDATE_ROLES_LIST_DIALOG_STATE } from "../graphql/mutations/UpdateRolesListDialogState";
 import { AllRolesView } from "../views/employees/AllRolesView";

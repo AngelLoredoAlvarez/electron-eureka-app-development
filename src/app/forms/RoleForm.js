@@ -95,8 +95,10 @@ export const RoleForm = ({
                   {inputProps => (
                     <TextField
                       autoFocus={true}
-                      error={errors.role && true}
-                      helperText={errors.role ? `${errors.role}` : ""}
+                      error={errors.role && touched.role ? true : false}
+                      helperText={
+                        errors.role && touched.role ? `${errors.role}` : ""
+                      }
                       id="role"
                       {...inputProps}
                       label="Nombre del Rol"

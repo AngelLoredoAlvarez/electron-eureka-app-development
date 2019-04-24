@@ -182,9 +182,15 @@ export class AddressInformation extends React.Component {
           >
             {inputProps => (
               <TextField
-                error={this.props.errors.exteriorNumber && true}
+                error={
+                  this.props.errors.exteriorNumber &&
+                  this.props.touched.exteriorNumber
+                    ? true
+                    : false
+                }
                 helperText={
-                  this.props.errors.exteriorNumber
+                  this.props.errors.exteriorNumber &&
+                  this.props.touched.exteriorNumber
                     ? `${this.props.errors.exteriorNumber}`
                     : ""
                 }

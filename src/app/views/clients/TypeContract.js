@@ -1,7 +1,9 @@
 import React from "react";
-import AutocompleteSelect from "./AutocompleteSelect";
+import AutocompleteSelect from "../../components/AutocompleteSelect";
 import { Grid, IconButton, Tooltip } from "@material-ui/core";
 import { Assessment } from "@material-ui/icons";
+import { CustomDialog } from "../../components/CustomDialog";
+import { AllClientContractTypesTable } from "./AllClientContractTypesTable";
 
 export class TypeContract extends React.Component {
   constructor(props) {
@@ -13,16 +15,31 @@ export class TypeContract extends React.Component {
         ? props.allClientContractTypesSuggestions.find(
             typeContract => typeContract.value === props.idTypeContract
           )
-        : null
+        : null,
+      allClientContractTypesDialogState: false
     };
   }
 
-  handleTypeContractChange = selectedTypeContract => {
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps !== this.props) {
+      this.setState({
+        typeContractsSuggestions: this.props.allClientContractTypesSuggestions
+      });
+    }
+  };
+
+  handleClientContractTypeChange = selectedTypeContract => {
     this.setState({
       selectedTypeContract: selectedTypeContract
     });
 
     this.props.setFieldValue("idTypeContract", selectedTypeContract.value);
+  };
+
+  handleAllClientContractTypesDialogState = () => {
+    this.setState(state => ({
+      allClientContractTypesDialogState: !state.allClientContractTypesDialogState
+    }));
   };
 
   render() {
@@ -32,7 +49,7 @@ export class TypeContract extends React.Component {
           <AutocompleteSelect
             error={this.props.error}
             fullWidth={this.props.fullWidth}
-            handleChange={this.handleTypeContractChange}
+            handleChange={this.handleClientContractTypeChange}
             placeholder="Tipo de Contrato..."
             suggestions={this.state.typeContractsSuggestions}
             touched={this.props.touched}
@@ -41,11 +58,21 @@ export class TypeContract extends React.Component {
         </Grid>
         <Grid item={true}>
           <Tooltip title="Administrar Tipos">
-            <IconButton>
+            <IconButton onClick={this.handleAllClientContractTypesDialogState}>
               <Assessment />
             </IconButton>
           </Tooltip>
         </Grid>
+        {this.state.allClientContractTypesDialogState && (
+          <CustomDialog
+            isOpen={this.state.allClientContractTypesDialogState}
+            maxWidth="sm"
+            onClose={this.handleAllClientContractTypesDialogState}
+            title="Tipos de Contratos"
+          >
+            <AllClientContractTypesTable />
+          </CustomDialog>
+        )}
       </Grid>
     );
   }

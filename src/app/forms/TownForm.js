@@ -64,8 +64,10 @@ export const TownForm = ({ action, id, town, onClose }) => (
                 {inputProps => (
                   <TextField
                     autoFocus={true}
-                    error={errors.town && true}
-                    helperText={errors.town ? `${errors.town}` : ""}
+                    error={errors.town && touched.town ? true : false}
+                    helperText={
+                      errors.town && touched.town ? `${errors.town}` : ""
+                    }
                     id="town"
                     {...inputProps}
                     label="Nombre de la Ciudad"
