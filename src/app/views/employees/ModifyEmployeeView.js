@@ -36,6 +36,7 @@ const ALL_TOWNS_TOWNSHIPS_STREETS_EMPLOYEE_QUERY = gql`
       employeeUser {
         username
         role
+        nodeId
       }
     }
     currentEmployee {
@@ -157,55 +158,7 @@ export const ModifyEmployeeView = ({ id, isOpen, onClose }) => (
         }
 
         return (
-          <Mutation
-            mutation={MODIFY_EMPLOYEE}
-            onCompleted={onClose}
-            update={(
-              cache,
-              {
-                data: {
-                  modifyEmployee: {
-                    selectedEmployee: { employee, employeeUser }
-                  }
-                }
-              }
-            ) => {
-              const EMPLOYEE_BY_ID_QUERY = gql`
-                query($id: Int!) {
-                  employeeById(id: $id) {
-                    employee {
-                      ...EmployeeFields
-                    }
-                    employeeUser {
-                      username
-                      role
-                    }
-                  }
-                }
-                ${EMPLOYEE_FIELDS}
-              `;
-
-              cache.writeQuery({
-                query: EMPLOYEE_BY_ID_QUERY,
-                variables: { id },
-                data: {
-                  employeeById: {
-                    employee: {
-                      ...employee,
-                      employee
-                    },
-                    employeeUser: {
-                      ...employeeUser,
-                      employeeUser
-                    },
-                    __typename: "SelectedEmployee"
-                  }
-                }
-              });
-
-              return null;
-            }}
-          >
+          <Mutation mutation={MODIFY_EMPLOYEE} onCompleted={onClose}>
             {(modifyEmployee, { error, loading }) => {
               if (loading) return <LoadingProgressSpinner />;
 

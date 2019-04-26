@@ -72,7 +72,7 @@ export const ModifyClientView = ({
               if (loading) return <LoadingProgressSpinner />;
 
               return (
-                <div>
+                <React.Fragment>
                   {error ? (
                     error.networkError ? (
                       <NetworkError
@@ -96,7 +96,7 @@ export const ModifyClientView = ({
                     id={id}
                     onClose={handleModifyClientViewDialogState}
                   />
-                </div>
+                </React.Fragment>
               );
             }}
           </Mutation>

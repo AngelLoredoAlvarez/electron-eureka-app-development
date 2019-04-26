@@ -70,7 +70,7 @@ export const AllClientContractTypesTable = () => (
                   customBodyRender: value => (
                     <Grid container={true} direction="row" spacing={8}>
                       <Grid item={true} xs={6}>
-                        <ModifyClientContractTypeView />
+                        <ModifyClientContractTypeView id={value.node.id} />
                       </Grid>
                       <Grid item={true} xs={6}>
                         <DeleteClientContractTypeView />
