@@ -3,10 +3,14 @@ import { IconButton, Tooltip } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
 import { CustomDialog } from "../../components/CustomDialog";
 import { RoleForm } from "../../forms/RoleForm";
+import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import { ROLE_BY_NAME } from "../../graphql/queries/RoleByName";
 import { MODIFY_ROLE } from "../../graphql/mutations/ModifyRole";
+import { ALL_ROLES } from "../../graphql/fragments/AllRoles";
 import { LoadingProgressSpinner } from "../../components/LoadingProgressSpinner";
+import { NetworkError } from "../../components/NetworkError";
+import { GraphQLError } from "../../components/GraphQLError";
 
 export class ModifyRoleView extends React.Component {
   constructor(props) {
@@ -48,70 +52,65 @@ export class ModifyRoleView extends React.Component {
                   <Mutation
                     mutation={MODIFY_ROLE}
                     onCompleted={this.handleModifyRoleViewDialogState}
-                    update={(
-                      cache,
+                    refetchQueries={[
                       {
-                        data: {
-                          modifyRole: { privilegesModules }
-                        }
-                      }
-                    ) => {
-                      let { roleByName } = cache.readQuery({
+                        query: gql`
+                          query {
+                            allRoles {
+                              ...AllRoles
+                            }
+                          }
+                          ${ALL_ROLES}
+                        `
+                      },
+                      {
                         query: ROLE_BY_NAME,
                         variables: { roleName: this.props.role }
-                      });
-
-                      roleByName.edges = privilegesModules.map(
-                        ({ module, privileges }) => ({
-                          node: {
-                            module,
-                            privileges,
-                            __typename: "PrivilegesModule"
-                          },
-                          __typename: "PrivilegesModulesEdge"
-                        })
-                      );
-
-                      cache.writeQuery({
-                        query: ROLE_BY_NAME,
-                        variables: { roleName: this.props.role },
-                        data: {
-                          roleByName: {
-                            ...roleByName,
-                            roleByName
-                          }
-                        }
-                      });
-
-                      return null;
-                    }}
+                      }
+                    ]}
                   >
-                    {(modifyRole, { loading }) => {
+                    {(modifyRole, { error, loading }) => {
                       if (loading) return <LoadingProgressSpinner />;
 
                       return (
-                        <RoleForm
-                          action={modifyRole}
-                          role={
-                            this.props.role
-                              .replace("eureka_", "")
-                              .charAt(0)
-                              .toUpperCase() + this.props.role.slice(8)
-                          }
-                          addModifyClient={roleByName.edges
-                            .find(({ node }) => node.module === "client")
-                            .node.privileges.includes("INSERT")}
-                          deleteClient={roleByName.edges
-                            .find(({ node }) => node.module === "client")
-                            .node.privileges.includes("DELETE")}
-                          addModifyEmployee={roleByName.edges
-                            .find(({ node }) => node.module === "employee")
-                            .node.privileges.includes("INSERT")}
-                          deleteEmployee={roleByName.edges
-                            .find(({ node }) => node.module === "client")
-                            .node.privileges.includes("DELETE")}
-                          onClose={this.handleModifyRoleViewDialogState}
-                        />
+                        <React.Fragment>
+                          {error ? (
+                            error.networkError ? (
+                              <NetworkError
+                                isOpen={true}
+                                networkError={error.networkError}
+                              />
+                            ) : error.graphQLErrors ? (
+                              <GraphQLError
+                                isOpen={true}
+                                graphQLErrors={error.graphQLErrors[0]}
+                              />
+                            ) : null
+                          ) : null}
+
+                          <RoleForm
+                            action={modifyRole}
+                            role={
+                              roleByName.roleName
+                                .replace("eureka_", "")
+                                .charAt(0)
+                                .toUpperCase() + this.props.role.slice(8)
+                            }
+                            addModifyClient={roleByName.privileges
+                              .find(({ module }) => module === "client")
+                              .privileges.includes("INSERT")}
+                            deleteClient={roleByName.privileges
+                              .find(({ module }) => module === "client")
+                              .privileges.includes("DELETE")}
+                            addModifyEmployee={roleByName.privileges
+                              .find(({ module }) => module === "employee")
+                              .privileges.includes("INSERT")}
+                            deleteEmployee={roleByName.privileges
+                              .find(({ module }) => module === "employee")
+                              .privileges.includes("DELETE")}
+                            onClose={this.handleModifyRoleViewDialogState}
+                          />
+                        </React.Fragment>
                       );
                     }}
                   </Mutation>

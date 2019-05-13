@@ -1,11 +1,9 @@
 import React from "react";
 import { CustomDialog } from "./CustomDialog";
 import { TownshipForm } from "../forms/TownshipForm";
-import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import { TOWNSHIP_BY_ID } from "../graphql/queries/TownshipById";
 import { MODIFY_TOWNSHIP } from "../graphql/mutations/ModifyTownship";
-import { ALL_TOWNSHIPS } from "../graphql/fragments/AllTownships";
 import { LoadingProgressSpinner } from "./LoadingProgressSpinner";
 import { NetworkError } from "./NetworkError";
 import { GraphQLError } from "./GraphQLError";

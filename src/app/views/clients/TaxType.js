@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AutocompleteSelect from "../../components/AutocompleteSelect";
 
-export const TaxType = ({ error, setFieldValue, touched, value }) => {
+export const TaxType = ({ error, setFieldValue, taxType, touched }) => {
   const TAX_TYPE_SUGGESTIONS = [
     {
       label: "Impuesto al Valor Agregado (IVA)",
@@ -22,9 +22,7 @@ export const TaxType = ({ error, setFieldValue, touched, value }) => {
   ];
 
   const [selectedTaxType, setSelectedTaxType] = useState(
-    TAX_TYPE_SUGGESTIONS.filter(
-      suggestion => suggestion.value === value.taxType
-    )
+    TAX_TYPE_SUGGESTIONS.filter(suggestion => suggestion.value === taxType)
   );
 
   const getSelectedTaxType = selectedTaxType => {

@@ -93,42 +93,12 @@ export const ModifyClientContractView = ({ idContract, isOpen, onClose }) => (
                 variables: { idContract }
               }
             ]}
-            update={(
-              cache,
-              {
-                data: {
-                  modifyClientContract: { clientContract }
-                }
-              }
-            ) => {
-              const CLIENT_CONTRACT_BY_ID_QUERY = gql`
-                query($id: Int!) {
-                  clientContractById(id: $id) {
-                    ...ClientContractFields
-                  }
-                }
-                ${CLIENT_CONTRACT_FIELDS}
-              `;
-
-              cache.writeQuery({
-                query: CLIENT_CONTRACT_BY_ID_QUERY,
-                variables: { id: idContract },
-                data: {
-                  clientContractById: {
-                    ...clientContract,
-                    clientContract
-                  }
-                }
-              });
-
-              return null;
-            }}
           >
             {(modifyContract, { error, loading }) => {
               if (loading) return <LoadingProgressSpinner />;
 
               return (
-                <div>
+                <React.Fragment>
                   {error ? (
                     error.networkError ? (
                       <NetworkError
@@ -155,7 +125,7 @@ export const ModifyClientContractView = ({ idContract, isOpen, onClose }) => (
                     idContract={idContract}
                     onClose={onClose}
                   />
-                </div>
+                </React.Fragment>
               );
             }}
           </Mutation>

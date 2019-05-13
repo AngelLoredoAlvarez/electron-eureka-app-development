@@ -36,6 +36,7 @@ export const RoleForm = ({
   <Formik
     initialValues={{
       role: role ? role : "",
+      prevRoleName: role ? role : "",
       addModifyClient: addModifyClient ? true : false,
       deleteClient: deleteClient ? true : false,
       addModifyEmployee: addModifyEmployee ? true : false,
@@ -58,6 +59,8 @@ export const RoleForm = ({
         ]
       };
 
+      if (values.prevRoleName) roleData.prevRoleName = values.prevRoleName;
+
       action({
         variables: {
           roleData
@@ -78,7 +81,7 @@ export const RoleForm = ({
       handleReset,
       setFieldValue
     }) => (
-      <form onSubmit={handleSubmit}>
+      <React.Fragment>
         <DialogContent style={{ overflow: "visible" }}>
           <Grid container={true} direction="row" spacing={24}>
             <Grid item={true} xs={12}>
@@ -175,14 +178,14 @@ export const RoleForm = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button color="primary" type="submit" variant="contained">
+          <Button color="primary" onClick={handleSubmit} variant="contained">
             Guardar
           </Button>
           <Button color="secondary" onClick={onClose} variant="contained">
             Cancelar
           </Button>
         </DialogActions>
-      </form>
+      </React.Fragment>
     )}
   </Formik>
 );

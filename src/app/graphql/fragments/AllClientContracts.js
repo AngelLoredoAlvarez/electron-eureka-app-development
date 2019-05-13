@@ -5,12 +5,12 @@ export const ALL_CLIENT_CONTRACTS = gql`
     edges {
       node {
         business
+        formatedStartDate
+        formatedEndDate
         typeContract: clientContractTypeByIdTypeContract {
           id
           typeName
         }
-        formatedStartDate
-        formatedEndDate
         status
         id
         nodeId

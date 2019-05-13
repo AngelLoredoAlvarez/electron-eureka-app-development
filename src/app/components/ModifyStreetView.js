@@ -1,11 +1,9 @@
 import React from "react";
 import { CustomDialog } from "./CustomDialog";
 import { StreetForm } from "../forms/StreetForm";
-import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import { STREET_BY_ID } from "../graphql/queries/StreetById";
 import { MODIFY_STREET } from "../graphql/mutations/ModifyStreet";
-import { ALL_STREETS } from "../graphql/fragments/AllStreets";
 import { LoadingProgressSpinner } from "./LoadingProgressSpinner";
 import { NetworkError } from "./NetworkError";
 import { GraphQLError } from "./GraphQLError";

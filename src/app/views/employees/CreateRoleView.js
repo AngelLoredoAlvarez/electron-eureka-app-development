@@ -55,7 +55,7 @@ export const CreateRoleView = ({ isOpen, maxWidth, onClose, title }) => (
         if (loading) return <LoadingProgressSpinner />;
 
         return (
-          <div>
+          <React.Fragment>
             {error ? (
               error.networkError ? (
                 <NetworkError isOpen={true} networkError={error.networkError} />
@@ -68,7 +68,7 @@ export const CreateRoleView = ({ isOpen, maxWidth, onClose, title }) => (
             ) : null}
 
             <RoleForm action={createRole} onClose={onClose} />
-          </div>
+          </React.Fragment>
         );
       }}
     </Mutation>

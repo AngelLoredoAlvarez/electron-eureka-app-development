@@ -73,7 +73,10 @@ export const AllClientContractTypesTable = () => (
                         <ModifyClientContractTypeView id={value.node.id} />
                       </Grid>
                       <Grid item={true} xs={6}>
-                        <DeleteClientContractTypeView />
+                        <DeleteClientContractTypeView
+                          id={value.node.id}
+                          typeName={value.node.typeName}
+                        />
                       </Grid>
                     </Grid>
                   ),

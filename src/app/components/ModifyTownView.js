@@ -1,11 +1,9 @@
 import React from "react";
 import { CustomDialog } from "./CustomDialog";
 import { TownForm } from "../forms/TownForm";
-import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import { TOWN_BY_ID } from "../graphql/queries/TownById";
 import { MODIFY_TOWN } from "../graphql/mutations/ModifyTown";
-import { ALL_TOWNS } from "../graphql/fragments/AllTowns";
 import { LoadingProgressSpinner } from "./LoadingProgressSpinner";
 import { NetworkError } from "./NetworkError";
 import { GraphQLError } from "./GraphQLError";

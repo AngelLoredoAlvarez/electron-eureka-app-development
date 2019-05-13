@@ -141,8 +141,8 @@ export const ClientContractTypeForm = ({
               <TaxType
                 error={errors.taxType}
                 setFieldValue={setFieldValue}
+                taxType={values.taxType}
                 touched={touched.taxType}
-                value={values.taxType}
               />
             </Grid>
             <Grid item={true}>

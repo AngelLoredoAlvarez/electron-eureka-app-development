@@ -4,6 +4,7 @@ export const MODIFY_TOWNSHIP = gql`
   mutation($townshipData: ModifyTownshipInput!) {
     modifyTownship(input: $townshipData) {
       township {
+        nodeId
         id
         typeTownship
         township
