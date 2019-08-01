@@ -10,7 +10,12 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 let mainWindow;
 
 const createMainWindow = () => {
-  const window = new BrowserWindow();
+  const window = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
+
   window.maximize();
 
   if (isDevelopment) {
