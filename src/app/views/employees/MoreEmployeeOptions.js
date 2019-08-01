@@ -45,9 +45,12 @@ export class MoreEmployeeOptions extends React.Component {
 
     return (
       <div>
-        <IconButton onClick={this.handleOptionsOpen}>
-          <MoreVert />
-        </IconButton>
+        {this.props.id === 1 &&
+        this.props.roleCurrentEmployee !== "eureka_administrador" ? null : (
+          <IconButton onClick={this.handleOptionsOpen}>
+            <MoreVert />
+          </IconButton>
+        )}
         <Menu anchorEl={anchorEl} onClose={this.handleOptionsClose} open={open}>
           {this.props.privilegesModules
             .find(({ module }) => module === "employee")
@@ -60,7 +63,7 @@ export class MoreEmployeeOptions extends React.Component {
               </Tooltip>
             </MenuItem>
           )}
-          {this.props.id === "1" ? null : this.props.privilegesModules
+          {this.props.id === 1 ? null : this.props.privilegesModules
               .find(({ module }) => module === "employee")
               .privileges.includes("DELETE") &&
             this.props.id !== this.props.idCurrentEmployee ? (
